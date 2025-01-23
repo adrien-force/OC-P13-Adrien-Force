@@ -1,3 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+:root {
+    --mainFont: 'Inter', serif;
+}
+
 body {
     background-color: skyblue;
+    display: block;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+header {
+    background-color: #FFFDF7;
+    height: 81px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+footer {
+    background-color: #FFFFFF;
+    height: 81px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 100%;
+}
+
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-right: 100px;
+}
+
+.header-buttons a,
+.footer-button {
+    text-decoration: none;
+    color: #000;
+    font-weight: 400;
+    font-size: 14px;
+    margin: 0 10px;
+}
+
+.footer-button {
+    margin-right: 100px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 100px
 }
