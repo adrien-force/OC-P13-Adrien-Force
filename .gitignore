@@ -23,11 +23,4 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
-/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd
-/.idea/php.xml
-/.idea/commandlinetools/Symfony_1_23_25__7_41PM.xml
-/.idea/workspace.xml
-/.idea/git_toolbox_blame.xml
-/.idea/phpunit.xml
-/.idea/symfony2.xml
-/.idea/vcs.xml
+/.idea/*
