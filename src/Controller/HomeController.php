@@ -14,4 +14,12 @@ final class HomeController extends AbstractController{
             'controller_name' => 'HomeController',
         ]);
     }
+
+    #[Route('/product', name: 'app_product')]
+    public function productPage(): Response
+    {
+        return $this->render('productPage/product.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }
