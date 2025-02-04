@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Our product{% endblock %}
+
+{% block body %}
+
+    {% include '/partials/header.twig.html.twig' %}
+    <div class="login-page">
+
+        <div class="login-left">
+            <img src="{{ asset('images/leaves.png') }}" alt="product1">
+        </div>
+        <div class="login-right signUp ">
+            <h1> Inscription </h1>
+
+            <h3> Tous les champs sont obligatoires.</h3>
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+
+            {{ form_start(form) }}
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.password) }}
+            <div class="checkbox">
+            {{ form_row(form.terms) }}
+            </div>
+            {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+
+            <a href="#"> Déjà un compte ? Se connecter </a>
+        </div>
+    </div>
+    {% include '/partials/footer.twig.html.twig' %}
+{% endblock %}
