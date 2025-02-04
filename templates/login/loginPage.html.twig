@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Our product{% endblock %}
+
+{% block body %}
+
+    {% include '/partials/header.twig.html.twig' %}
+    <div class="login-page">
+
+        <div class="login-left">
+            <img src="{{ asset('images/branch.png') }}" alt="product1">
+        </div>
+        <div class="login-right ">
+                <h1> Connexion </h1>
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+
+                {{ form_start(form) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.password) }}
+                {{ form_row(form.submit) }}
+                {{ form_end(form) }}
+
+            <a href="#"> Pas encore de compte ? S’inscrire </a>
+        </div>
+    </div>
+        {% include '/partials/footer.twig.html.twig' %}
+{% endblock %}
