@@ -28,20 +28,12 @@ h1, h2, h3, h4, h5, h6, p, a {
 body {
     background-color: #fffdf8;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     margin: 0;
     font-family: var(--mainFont), serif;
     width: 100%;
     min-width: 1150px;
-}
-
-.main-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    overflow: hidden;
+    min-height: 100vh;
 }
 
 header {
@@ -62,6 +54,7 @@ footer {
     justify-content: right;
     align-items: center;
     width: 100%;
+    margin-top: auto;
 }
 
 .footer-wrapper {
@@ -103,6 +96,7 @@ footer {
     flex-direction: row;
     align-items: center;
     width: 100%;
+    background-color: #E8F0E3 ;
 }
 
 .welcome-left {
@@ -400,7 +394,6 @@ footer {
     flex-direction: row;
     width: 100%;
     overflow: hidden;
-    height: 100vh;
 }
 
 .login-left {
@@ -419,7 +412,7 @@ footer {
     flex-direction: column;
     justify-content: flex-start;
     align-items: baseline;
-    padding: 80px 200px 0 200px;
+    padding: 80px 10% 0 10%;
 }
 
 .login-right h1 {
@@ -513,4 +506,113 @@ form * label {
 input:focus, textarea:focus, select:focus {
     outline: none;
     box-shadow: none;
+}
+
+body:has(.basket-page) {
+    background-color: #f6efe9 ;
+}
+
+.basket-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 80vh;
+    overflow: hidden;
+}
+
+.basket-page h1 {
+    font-size: 20px;
+    font-weight: var(--font-medium);
+    color: #333333;
+    margin-bottom: 19px;
+}
+
+.basket-clear {
+    align-self: baseline;
+    font-size: 14px;
+    font-weight: var(--font-regular);
+    color: #666666;
+    margin-bottom: 17px;
+}
+
+.my-basket {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+}
+
+.basket-item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 5px;
+    background-color: #fffdf6;
+}
+
+.basket-item img {
+    width: 150px;
+    height: 150px;
+    margin: 45px;
+}
+
+.basket-total {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background-color: #fdf8f3;
+    width: 100%;
+    margin-bottom: 29px;
+}
+
+.basket-item-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: flex-start;
+}
+
+.basket-item-text h2 {
+    font-size: 14px;
+    font-weight: var(--font-semi-bold);
+    color: #000000;
+    margin: 0 0 6px 0;
+}
+
+.basket-item-text h3 {
+    font-size: 14px;
+    font-weight: var(--font-regular);
+    color: #666666;
+    margin-bottom: 13px;
+}
+
+.basket-item-text h4 {
+    font-size: 18px;
+    font-weight: var(--font-medium);
+    color: #333333;
+}
+
+.basket-total h2 {
+    margin: 24px 0 6px 0;
+    font-size: 14px;
+    font-weight: var(--font-medium);
+    color: #333333;
+}
+
+.basket-amount {
+    font-size: 20px;
+    font-weight: var(--font-regular);
+    color: #333333;
+    margin-right: 38px;
+}
+
+.basket-total h4 {
+    font-size: 12px;
+    font-weight: var(--font-regular);
+    color: #666666;
+    margin-bottom: 19px;
 }

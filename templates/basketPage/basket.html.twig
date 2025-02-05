@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Basket Page{% endblock %}
+
+{% block body %}
+
+    {% include '/partials/header.twig.html.twig' %}
+    <div class="basket-page">
+
+        <div class="my-basket">
+            <h1> Mon panier </h1>
+            <a class="basket-clear"> x Vider le panier</a>
+
+            <div class="basket-item">
+                <img src="{{ asset('images/products/product1.png') }}" alt="product1">
+                <div class="basket-item-text">
+                    <h2> Nécessaire, déodorant Bio </h2>
+                    <h3> Quantité: 1</h3>
+                    <h4> 8,50€ </h4>
+                </div>
+            </div>
+            <div class="basket-total">
+                <div>
+                    <h2> Total panier : <span class="basket-amount">8,50€</span></h2>
+                    <h4> Frais de livraison: Offert</h4>
+                </div>
+            </div>
+
+            <a href="#" class="main-button"> Valider la commande </a>
+        </div>
+
+
+    </div>
+    {% include '/partials/footer.twig.html.twig' %}
+{% endblock %}

@@ -102,4 +102,12 @@ final class HomeController extends AbstractController{
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/basket', name: 'app_basket')]
+    public function basketPage(): Response
+    {
+        return $this->render('basketPage/basket.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }
