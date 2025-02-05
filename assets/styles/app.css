@@ -616,3 +616,92 @@ body:has(.basket-page) {
     color: #666666;
     margin-bottom: 19px;
 }
+
+.account-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 80vh;
+    overflow: hidden;
+}
+
+.my-account {
+    margin-top: 43px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+}
+
+.my-account h1 {
+    margin-bottom: 43px;
+}
+
+.account-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 60px;
+    background-color: #FFFDF7;
+}
+
+.account-block h2 {
+    font-size: 14px;
+    font-weight: var(--font-semi-bold);
+    color: #000000;
+    margin: 0 0 30px 0;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.account-block:last-child {
+    margin-bottom: 77px;
+}
+
+.account-block .main-button {
+    width: 100%;
+}
+
+.account-block:has(table) {
+    padding-bottom: 10px;
+}
+
+.account-block table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 20px 0 30px 0 ;
+}
+
+tbody tr {
+    margin-bottom: 30px;
+    font-size: 14px;
+    font-weight: var(--font-medium);
+    color: #333333;
+}
+
+tbody tr:not(:last-child) {
+    border-bottom: 1px solid #c5c5c5;
+}
+
+thead {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+th {
+    font-size: 14px;
+    font-weight: var(--font-regular);
+    color: #666666;
+}
+

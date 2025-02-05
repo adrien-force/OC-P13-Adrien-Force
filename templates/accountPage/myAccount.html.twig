@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Basket Page{% endblock %}
+
+{% block body %}
+
+    {% include '/partials/header.twig.html.twig' %}
+    <div class="basket-page">
+
+        <div class="my-account">
+            <h1> Mon compte </h1>
+
+            <div class="account-block">
+                <h2> Mes commandes</h2>
+                <table>
+                    <colgroup>
+                        <col style="width: 40%;">
+                        <col style="width: 50%;">
+                        <col style="width: 10%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Date</th>
+                        <th>Prix</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>01/01/2021</td>
+                        <td>8,50€</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>01/01/2021</td>
+                        <td>8,50€</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>01/01/2021</td>
+                        <td>8,50€</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="account-block">
+                <h2> Mon accès API</h2>
+                <a href="#" class="main-button"> Activer mon accès API </a>
+            </div>
+
+            <div class="account-block">
+                <a href="#" class="main-button"> Supprimer mon compte </a>
+            </div>
+        </div>
+
+
+    </div>
+    {% include '/partials/footer.twig.html.twig' %}
+{% endblock %}
