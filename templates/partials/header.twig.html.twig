@@ -8,10 +8,16 @@
     </div>
 
     <div class="header-buttons">
-        <a href="/home" class="header-button"> Nos produits </a>
-        <a href="/basket" class="header-button"> Mon panier </a>
-        <a href="/account" class="header-button"> Mon compte </a>
-        <a href="/signUp" class="header-button"> Connexion </a>
+        <a href="{{ path('app_home') }}" class="header-button">  Nos produits </a>
+        <a href="{{ path('app_basket') }}" class="header-button"> Mon panier </a>
+        {% if app.user %}
+        <a href="{{ path('app_account') }}" class="header-button"> Mon compte </a>
+        {% endif %}
+        {% if app.user %}
+        <a href="{{ path('app_logout') }}" class="header-button"> Déconnexion </a>
+        {% else %}
+        <a href="{{ path('app_login') }}" class="header-button"> Connexion </a>
+        {% endif %}
     </div>
 
 </header>

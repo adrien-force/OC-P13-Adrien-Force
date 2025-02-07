@@ -58,51 +58,6 @@ final class HomeController extends AbstractController{
             'form' => $form->createView(),
         ]);
     }
-
-    #[Route('/signup', name: 'app_signUp')]
-    public function signUp(Request $request): Response
-    {
-        $form = $this->createFormBuilder()
-            ->add('lastName', TextType::class, [
-                'label' => 'Nom',
-                'attr' => ['placeholder' => 'Entrez votre nom']
-            ])
-            ->add('firstName', TextType::class, [
-                'label' => 'Prénom',
-                'attr' => ['placeholder' => 'Entrez votre prénom']
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'Adresse email',
-                'attr' => ['placeholder' => 'Entrez votre email']
-            ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe ne correspondent pas',
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmer le mot de passe']
-            ])
-            ->add('terms', CheckboxType::class, [
-                'label' => 'J\'accepte les CGU de GreenGoodies',
-                'mapped' => false,
-                'constraints' => new IsTrue()
-            ])
-
-            ->add('submit', SubmitType::class, ['label' => 'S\'inscrire'])
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $this->addFlash('success', 'Tentative d\'inscription avec : ' . $data['email']);
-
-            return $this->redirectToRoute('app_login');
-        }
-
-        return $this->render('logPages/signUpPage.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
     #[Route('/basket', name: 'app_basket')]
     public function basketPage(): Response
     {

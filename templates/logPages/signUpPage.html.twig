@@ -32,8 +32,7 @@
             <button type="submit" class="btn">Register</button>
             {{ form_end(registrationForm) }}
 
-
-            <a href="#"> Déjà un compte ? Se connecter </a>
+            <a href="{{path('app_login')}}"> Déjà un compte ? Se connecter </a>
         </div>
     </div>
     {% include '/partials/footer.twig.html.twig' %}
