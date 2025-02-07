@@ -15,20 +15,23 @@
 
             <h3> Tous les champs sont obligatoires.</h3>
 
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success">{{ message }}</div>
-            {% endfor %}
 
-            {{ form_start(form) }}
-            {{ form_row(form.firstName) }}
-            {{ form_row(form.lastName) }}
-            {{ form_row(form.email) }}
-            {{ form_row(form.password) }}
+            {{ form_errors(registrationForm) }}
+
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.firstName) }}
+            {{ form_row(registrationForm.lastName) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password'
+            }) }}
             <div class="checkbox">
-            {{ form_row(form.terms) }}
+
+            {{ form_row(registrationForm.agreeTerms) }}
             </div>
-            {{ form_row(form.submit) }}
-            {{ form_end(form) }}
+            <button type="submit" class="btn">Register</button>
+            {{ form_end(registrationForm) }}
+
 
             <a href="#"> Déjà un compte ? Se connecter </a>
         </div>
