@@ -373,6 +373,8 @@ footer {
 }
 
 .main-button {
+    all: unset;
+    cursor: pointer;
     height: 77px;
     background-color: #565656;
     display: flex;
@@ -394,6 +396,11 @@ footer {
     flex-direction: row;
     width: 100%;
     overflow: hidden;
+}
+
+.login-page .main-button {
+    width: 100%;
+    margin-bottom: 30px;
 }
 
 .login-left {
@@ -481,6 +488,11 @@ form * label {
     color: #666666;
     margin-top: 10px;
     margin-bottom: 24px;
+}
+
+.signUp .main-button {
+    width: 100%;
+    margin-bottom: 30px;
 }
 
 .checkbox * {
