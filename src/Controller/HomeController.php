@@ -23,14 +23,6 @@ final class HomeController extends AbstractController{
         ]);
     }
 
-    #[Route('/product', name: 'app_product')]
-    public function productPage(): Response
-    {
-        return $this->render('productPage/product.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
-
     #[Route('/login', name: 'app_login')]
     public function login(Request $request): Response
     {

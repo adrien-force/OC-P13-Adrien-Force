@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un produit{% endblock %}
+
+{% block body %}
+
+    {% include '/partials/header.twig.html.twig' %}
+    <div class="account-page">
+
+        <div class="my-account">
+            <h1> Ajouter un produit </h1>
+
+            <div class="account-block">
+
+                {{ form_start(form) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.price) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.imgSrc) }}
+
+
+            <div class="account-block">
+                <button type="submit" class="main-button">Ajouter</button>
+                {{ form_end(form) }}            </div>
+        </div>
+
+
+    </div>
+    {% include '/partials/footer.twig.html.twig' %}
+{% endblock %}
