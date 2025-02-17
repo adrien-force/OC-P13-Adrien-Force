@@ -9,7 +9,7 @@
 
         {% for product in products %}
         <div class="product-card">
-            <img src="{{ asset('images/products/' ~ product.imgSrc) }}" alt="produit1" />
+            <img src="{{ asset('images/products/' ~ product.imgSrc) }}" alt="Photo de {{product.name}}" />
             <div class="product-card-text">
                 <h3> {{ product.name}} </h3>
                 <h4>{{ product.descPreview }}</h4>

@@ -12,11 +12,15 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/product', name: 'app_product')]
-    public function productPage(): Response
+    #[Route('/product/{id}', name: 'app_product')]
+    public function productPage(
+        Product $product
+    ): Response
     {
+
         return $this->render('productPage/product.html.twig', [
             'controller_name' => 'HomeController',
+            'product' => $product,
         ]);
     }
 
