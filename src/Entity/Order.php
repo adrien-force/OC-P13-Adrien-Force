@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\BasketRepository;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,22 +17,22 @@ class Order
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
 
     /**
-     * @var Collection<int, Product>
+     * @var Collection<int, BasketProduct>
      */
-    #[ORM\ManyToMany(targetEntity: Product::class)]
-    private Collection $products;
+    #[ORM\ManyToMany(targetEntity: BasketProduct::class)]
+    private Collection $basketProducts;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $orderedAt = null;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->basketProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,25 +53,25 @@ class Order
     }
 
     /**
-     * @return Collection<int, Product>
+     * @return Collection<int, BasketProduct>
      */
     public function getProducts(): Collection
     {
-        return $this->products;
+        return $this->basketProducts;
     }
 
-    public function addProduct(Product $product): static
+    public function addProduct(BasketProduct $product): static
     {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
+        if (!$this->basketProducts->contains($product)) {
+            $this->basketProducts->add($product);
         }
 
         return $this;
     }
 
-    public function removeProduct(Product $product): static
+    public function removeProduct(BasketProduct $product): static
     {
-        $this->products->removeElement($product);
+        $this->basketProducts->removeElement($product);
 
         return $this;
     }

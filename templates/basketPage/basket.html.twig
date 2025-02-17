@@ -11,14 +11,21 @@
             <h1> Mon panier </h1>
             <a class="basket-clear"> x Vider le panier</a>
 
+            {% for basketProduct in basketProducts %}
             <div class="basket-item">
-                <img src="{{ asset('images/products/product1.png') }}" alt="product1">
+                <img src="{{ asset('images/products/' ~ basketProduct.product.imgSrc) }}" alt="Photo de {{basketProduct.product.name}}" />
                 <div class="basket-item-text">
-                    <h2> Nécessaire, déodorant Bio </h2>
-                    <h3> Quantité: 1</h3>
-                    <h4> 8,50€ </h4>
+                    <h2> {{ basketProduct.product.name }} </h2>
+                    <h3> Quantité: {{  basketProduct.quantity }}</h3>
+                    <h4> {{ basketProduct.product.price }}€ </h4>
                 </div>
             </div>
+            {% endfor %}
+            {% if basketProducts|length == 0 %}
+            <div class="basket-item">
+                    <h2> Votre panier est vide </h2>
+            </div>
+            {% endif %}
             <div class="basket-total">
                 <div>
                     <h2> Total panier : <span class="basket-amount">8,50€</span></h2>

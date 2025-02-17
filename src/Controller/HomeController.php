@@ -29,41 +29,6 @@ final class HomeController extends AbstractController{
         ]);
     }
 
-    #[Route('/login', name: 'app_login')]
-    public function login(Request $request): Response
-    {
-        $form = $this->createFormBuilder()
-            ->add('email', EmailType::class, [
-                'label' => 'Adresse email',
-                'attr' => ['placeholder' => 'Entrez votre email']
-            ])
-            ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe',
-                'attr' => ['placeholder' => 'Entrez votre mot de passe']
-            ])
-            ->add('submit', SubmitType::class, ['label' => 'Se connecter'])
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $this->addFlash('success', 'Tentative de connexion avec : ' . $data['email']);
-
-            return $this->redirectToRoute('app_login');
-        }
-
-        return $this->render('logPages/loginPage.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-    #[Route('/basket', name: 'app_basket')]
-    public function basketPage(): Response
-    {
-        return $this->render('basketPage/basket.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
-
     #[Route('/account', name: 'app_account')]
     public function accountPage(): Response
     {

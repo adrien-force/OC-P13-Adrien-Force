@@ -139,6 +139,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getBasket(): ?Basket
     {
+        if ($this->basket === null) {
+            $this->basket = new Basket();
+            $this->basket->setOwner($this);
+        }
+
         return $this->basket;
     }
 

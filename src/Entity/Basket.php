@@ -15,47 +15,23 @@ class Basket
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var Collection<int, Product>
-     */
-    #[ORM\ManyToMany(targetEntity: Product::class)]
-    private Collection $products;
-
     #[ORM\OneToOne(inversedBy: 'basket', cascade: ['persist', 'remove'])]
     private ?User $owner = null;
 
+    /**
+     * @var Collection<int, BasketProduct>
+     */
+    #[ORM\OneToMany(targetEntity: BasketProduct::class, mappedBy: 'basket')]
+    private Collection $basketProducts;
+
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->basketProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): static
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): static
-    {
-        $this->products->removeElement($product);
-
-        return $this;
     }
 
     public function getOwner(): ?User
@@ -66,6 +42,36 @@ class Basket
     public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BasketProduct>
+     */
+    public function getBasketProducts(): Collection
+    {
+        return $this->basketProducts;
+    }
+
+    public function addBasketProduct(BasketProduct $basketProduct): static
+    {
+        if (!$this->basketProducts->contains($basketProduct)) {
+            $this->basketProducts->add($basketProduct);
+            $basketProduct->setBasket($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasketProduct(BasketProduct $basketProduct): static
+    {
+        if ($this->basketProducts->removeElement($basketProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($basketProduct->getBasket() === $this) {
+                $basketProduct->setBasket(null);
+            }
+        }
 
         return $this;
     }
