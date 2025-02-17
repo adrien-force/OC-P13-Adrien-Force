@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -28,6 +29,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $lastName = '';
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Assert\Email(message: 'The email "{{ value }}" is not a valid email.')]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     /**
@@ -61,7 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -109,8 +112,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
+        if ($this->password === null) {
+            throw new \LogicException('The password should never be null.');
+        }
+
         return $this->password;
     }
 
