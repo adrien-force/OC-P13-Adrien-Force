@@ -18,7 +18,12 @@ class AddProductFormType extends AbstractType
             ->add('name', TextType::class)
             ->add('price', MoneyType::class)
             ->add('description', TextType::class)
-            ->add('imgSrc', TextType::class)
+            ->add('descPreview', TextType::class, [
+                'label' => 'Description Preview',
+            ])
+            ->add('imgSrc', TextType::class, [
+                'label' => 'Image Source',
+            ])
         ;
     }
 

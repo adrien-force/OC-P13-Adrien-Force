@@ -22,6 +22,9 @@ class Product
     #[ORM\Column(type: 'text', length: 500, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(type: 'text', length: 150, nullable: true)]
+    private ?string $descPreview = null;
+
     #[ORM\Column(length: 255)]
     private ?string $imgSrc = null;
 
@@ -76,5 +79,15 @@ class Product
         $this->imgSrc = $imgSrc;
 
         return $this;
+    }
+
+    public function getDescPreview(): ?string
+    {
+        return $this->descPreview;
+    }
+
+    public function setDescPreview(?string $descPreview): void
+    {
+        $this->descPreview = $descPreview;
     }
 }
