@@ -9,7 +9,9 @@
 
         <div class="my-basket">
             <h1> Mon panier </h1>
-            <a class="basket-clear"> x Vider le panier</a>
+            {% if basketProducts != null %}
+            <a href="/basket/clear/{{ basketProducts[0].basket.id }}" class="basket-clear"> x Vider le panier</a>
+            {% endif %}
 
             {% for basketProduct in basketProducts %}
             <div class="basket-item">
@@ -22,13 +24,13 @@
             </div>
             {% endfor %}
             {% if basketProducts|length == 0 %}
-            <div class="basket-item">
-                    <h2> Votre panier est vide </h2>
-            </div>
+                <div class="basket-item-text">
+                    <h3> Votre panier est vide </h3>
+                </div>
             {% endif %}
             <div class="basket-total">
                 <div>
-                    <h2> Total panier : <span class="basket-amount"> {{ basketProducts[0].basket.total }}€</span></h2>
+                    <h2> Total panier : <span class="basket-amount">{% if basketProducts != null %} {{ basketProducts[0].basket.total }} {% else %} 0 {% endif %}€</span></h2>
                     <h4> Frais de livraison: Offert</h4>
                 </div>
             </div>

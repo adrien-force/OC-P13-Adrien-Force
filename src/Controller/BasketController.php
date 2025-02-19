@@ -73,8 +73,28 @@ final class BasketController extends AbstractController{
         $basket = $user->getBasket();
         $basketProducts = $basket->getBasketProducts();
 
+        if ($basketProducts->isEmpty()) {
+            $basketProducts = null;
+        }
+
         return $this->render('basketPage/basket.html.twig', [
             'basketProducts' => $basketProducts,
         ]);
+    }
+
+    #[Route('/basket/clear/{id}', name: 'app_basket_clear')]
+    public function clearBasket(
+        Basket $basket,
+        EntityManagerInterface $em
+    ): Response
+    {
+        $basketProducts = $basket->getBasketProducts();
+        foreach ($basketProducts as $basketProduct) {
+            $em->remove($basketProduct);
+        }
+        $em->remove($basket);
+        $em->flush();
+
+        return $this->redirectToRoute('app_basket');
     }
 }

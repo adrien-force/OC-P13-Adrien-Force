@@ -45,7 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToOne(mappedBy: 'owner', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'owner')]
     private ?Basket $basket = null;
 
     /**

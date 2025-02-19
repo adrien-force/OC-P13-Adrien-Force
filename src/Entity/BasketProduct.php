@@ -67,4 +67,5 @@ class BasketProduct
     {
         return $this->product->getPrice() * $this->quantity;
     }
+
 }
