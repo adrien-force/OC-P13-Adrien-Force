@@ -75,4 +75,14 @@ class Basket
 
         return $this;
     }
+
+    public function getTotal(): float
+    {
+        $total = 0;
+        foreach ($this->basketProducts as $basketProduct) {
+            $total += $basketProduct->getSubtotal();
+        }
+
+        return $total;
+    }
 }

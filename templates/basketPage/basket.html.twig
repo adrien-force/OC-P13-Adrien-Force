@@ -17,7 +17,7 @@
                 <div class="basket-item-text">
                     <h2> {{ basketProduct.product.name }} </h2>
                     <h3> Quantité: {{  basketProduct.quantity }}</h3>
-                    <h4> {{ basketProduct.product.price }}€ </h4>
+                    <h4> {{ basketProduct.subTotal }}€ </h4>
                 </div>
             </div>
             {% endfor %}
@@ -28,7 +28,7 @@
             {% endif %}
             <div class="basket-total">
                 <div>
-                    <h2> Total panier : <span class="basket-amount">8,50€</span></h2>
+                    <h2> Total panier : <span class="basket-amount"> {{ basketProducts[0].basket.total }}€</span></h2>
                     <h4> Frais de livraison: Offert</h4>
                 </div>
             </div>

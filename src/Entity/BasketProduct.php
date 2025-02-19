@@ -62,4 +62,9 @@ class BasketProduct
 
         return $this;
     }
+
+    public function getSubTotal(): float
+    {
+        return $this->product->getPrice() * $this->quantity;
+    }
 }
