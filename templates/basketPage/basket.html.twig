@@ -35,7 +35,11 @@
                 </div>
             </div>
 
-            <a href="#" class="main-button"> Valider la commande </a>
+            {% if basketProducts|length > 0 %}
+            <a href="/basket/validate/{{ basketProducts[0].basket.id }}" class="main-button"> Valider la commande </a>
+            {% else %}
+            <a href="/home" class="main-button"> Voir les produits </a>
+            {% endif %}
         </div>
 
 

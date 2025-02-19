@@ -60,18 +60,18 @@ class Order
         return $this->basketProducts;
     }
 
-    public function addProduct(BasketProduct $product): static
+    public function addBasketProduct(BasketProduct $basketProduct): static
     {
-        if (!$this->basketProducts->contains($product)) {
-            $this->basketProducts->add($product);
+        if (!$this->basketProducts->contains($basketProduct)) {
+            $this->basketProducts->add($basketProduct);
         }
 
         return $this;
     }
 
-    public function removeProduct(BasketProduct $product): static
+    public function removeBasketProduct(BasketProduct $basketProduct): static
     {
-        $this->basketProducts->removeElement($product);
+        $this->basketProducts->removeElement($basketProduct);
 
         return $this;
     }
@@ -86,5 +86,15 @@ class Order
         $this->orderedAt = $orderedAt;
 
         return $this;
+    }
+
+    public function getTotal(): float
+    {
+        $total = 0;
+        foreach ($this->basketProducts as $basketProduct) {
+            $total += $basketProduct->getProduct()->getPrice() * $basketProduct->getQuantity();
+        }
+
+        return $total;
     }
 }

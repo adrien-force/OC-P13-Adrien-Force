@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Basket;
 use App\Entity\BasketProduct;
 use App\Entity\Product;
+use App\Manager\OrderManager;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -96,5 +97,17 @@ final class BasketController extends AbstractController{
         $em->flush();
 
         return $this->redirectToRoute('app_basket');
+    }
+
+    #[Route('/basket/validate/{id}', name: 'app_basket_validate')]
+    public function validateBasket(
+        Basket $basket,
+        EntityManagerInterface $em,
+        OrderManager $orderManager
+    ): Response
+    {
+        $orderManager->createOrderFromBasket($basket, $em);
+
+        return $this->redirectToRoute('app_account');
     }
 }

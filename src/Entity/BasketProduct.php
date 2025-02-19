@@ -16,6 +16,9 @@ class BasketProduct
     #[ORM\ManyToOne(inversedBy: 'basketProducts')]
     private ?Basket $basket = null;
 
+    #[ORM\ManyToOne(inversedBy: 'basketProducts')]
+    private ?Order $order = null;
+
     #[ORM\ManyToOne]
     private ?Product $product = null;
 
@@ -66,6 +69,17 @@ class BasketProduct
     public function getSubTotal(): float
     {
         return $this->product->getPrice() * $this->quantity;
+    }
+
+    public function setOrder(?Order $order): BasketProduct
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
     }
 
 }

@@ -26,21 +26,13 @@
                     </tr>
                     </thead>
                     <tbody>
+                    {% for order in orders %}
                     <tr>
-                        <td>1</td>
-                        <td>01/01/2021</td>
-                        <td>8,50€</td>
+                        <td>{{ loop.index }}</td>
+                        <td> {{ order.orderedAt|date('d-m-Y') }}</td>
+                        <td>{{ order.total }}€</td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>01/01/2021</td>
-                        <td>8,50€</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>01/01/2021</td>
-                        <td>8,50€</td>
-                    </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
 
