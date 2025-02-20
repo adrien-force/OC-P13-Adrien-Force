@@ -71,6 +71,18 @@ footer {
     margin-right: 100px;
 }
 
+.header-buttons a {
+    padding-bottom: 5px;
+}
+
+.header-buttons a:hover {
+    border-bottom: 2px solid rgba(58, 106, 77, 0.59);
+}
+
+.header-buttons .active {
+    border-bottom: 2px solid #3a6a4d;
+}
+
 .header-buttons a,
 .footer-button {
     text-decoration: none;

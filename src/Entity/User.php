@@ -46,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\OneToOne(mappedBy: 'owner')]
-    private Basket $basket;
+    private ?Basket $basket = null;
 
     /**
      * @var Collection<int, Order>
@@ -57,6 +57,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->initializeBasket();
+    }
+
+    private function initializeBasket(): void
+    {
+        $this->basket = new Basket();
+        $this->basket->setOwner($this);
     }
 
     public function getId(): ?int
