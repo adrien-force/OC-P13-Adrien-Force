@@ -46,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\OneToOne(mappedBy: 'owner')]
-    private ?Basket $basket = null;
+    private Basket $basket;
 
     /**
      * @var Collection<int, Order>

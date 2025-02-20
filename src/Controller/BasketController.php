@@ -6,9 +6,11 @@ use App\Entity\Basket;
 use App\Entity\BasketProduct;
 use App\Entity\Product;
 use App\Manager\OrderManager;
+use App\Repository\BasketProductRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -55,7 +57,7 @@ final class BasketController extends AbstractController{
         $em->persist($user);
         $em->flush();
 
-        return $this->redirectToRoute('app_basket');
+        return $this->redirectToRoute('app_product', ['id' => $product->getId()]);
     }
 
     #[Route('/basket', name: 'app_basket')]
@@ -93,7 +95,6 @@ final class BasketController extends AbstractController{
         foreach ($basketProducts as $basketProduct) {
             $em->remove($basketProduct);
         }
-        $em->remove($basket);
         $em->flush();
 
         return $this->redirectToRoute('app_basket');
@@ -110,4 +111,35 @@ final class BasketController extends AbstractController{
 
         return $this->redirectToRoute('app_account');
     }
+
+    #[Route('/update-quantity/{id}', name: 'update_quantity', methods: ['POST'])]
+    public function updateQuantity
+    (
+        Request $request,
+        $id,
+        BasketProductRepository $basketProductRepository,
+        EntityManagerInterface $em
+    )
+    {
+        $action = $request->request->get('action');
+
+        $basketProduct = $basketProductRepository->find($id);
+
+        $quantity = $basketProduct->getQuantity();
+
+        match ($action) {
+            'increment' => $quantity += 1,
+            'decrement' => $quantity -= 1,
+            'update' => $quantity = $request->request->get('quantity'),
+            default => $quantity
+        };
+
+
+        $basketProduct->setQuantity($quantity);
+        $em->persist($basketProduct);
+        $em->flush();
+
+        return $this->redirectToRoute('app_product', ['id' => $id]);
+    }
+
 }

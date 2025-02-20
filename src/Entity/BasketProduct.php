@@ -63,6 +63,10 @@ class BasketProduct
     {
         $this->quantity = $quantity;
 
+        if ($this->quantity === 0) {
+            $this->basket->removeBasketProduct($this);
+        }
+
         return $this;
     }
 

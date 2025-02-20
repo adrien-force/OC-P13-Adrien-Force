@@ -10,18 +10,40 @@
         <div class="product-left">
             <img src="{{ asset('images/products/' ~ product.imgSrc) }}" alt="Photo de {{product.name}}" />
         </div>
-        <div class="product-right ">
+        <div class="product-right">
             <div class="product-text-wrapper">
                 <h1> {{ product.name }} </h1>
                 <h2> {{ product.price }}€ </h2>
                 <h5> Description </h5>
                 <p>{{product.description}}</p>
             </div>
-            <a href="/basket/add/{{product.id}}" class="main-button"> Ajouter au panier </a>
+            {% if productInBasket == null %}
+                <a href="/basket/add/{{product.id}}" class="main-button"> Ajouter au panier </a>
+            {% else %}
+                <form class="quantity-form" method="post" action="{{ path('update_quantity', {'id': productInBasket.id}) }}">
+                    <div class="main-button" style="display:flex; align-items: center; margin: 10px; justify-content: center;">
+                        <div class="quantity-control">
+                            <button type="submit" name="action" value="decrement" class="quantity-button">-</button>
+                            <label>
+                                <input type="number" name="quantity" value="{{ productInBasket.quantity }}" class="quantity-input">
+                            </label>
+                            <button type="submit" name="action" value="increment" class="quantity-button">+</button>
+                        </div>
+                        <button type="submit" name="action" value="update" class="main-button">
+                            Modifier la quantité
+                        </button>
+                    </div>
+                </form>
+            {% endif %}
         </div>
     </div>
 
     <div class="footer-wrapper">
         {% include '/partials/footer.twig.html.twig' %}
     </div>
+
+    <style>
+
+    </style>
+
 {% endblock %}
