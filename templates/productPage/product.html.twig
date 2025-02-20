@@ -21,7 +21,7 @@
                 <a href="/basket/add/{{product.id}}" class="main-button"> Ajouter au panier </a>
             {% else %}
                 <form class="quantity-form" method="post" action="{{ path('update_quantity', {'id': productInBasket.id}) }}">
-                    <div class="main-button" style="display:flex; align-items: center; margin: 10px; justify-content: center;">
+                    <div class="main-button quantity-button-wrapper">
                         <div class="quantity-control">
                             <button type="submit" name="action" value="decrement" class="quantity-button">-</button>
                             <label>

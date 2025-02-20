@@ -770,3 +770,10 @@ input[type="number"]::-webkit-outer-spin-button {
     background: none;
     color: white;
 }
+
+.quantity-button-wrapper {
+    display:flex;
+    align-items: center;
+    margin: 10px;
+    justify-content: center;
+}
