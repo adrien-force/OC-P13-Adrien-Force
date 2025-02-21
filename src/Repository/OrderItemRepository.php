@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Basket;
+use App\Entity\OrderItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Basket>
+ * @extends ServiceEntityRepository<OrderItem>
  */
-class BasketRepository extends ServiceEntityRepository
+class OrderItemRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Basket::class);
+        parent::__construct($registry, OrderItem::class);
     }
 
 //    /**
-//     * @return Basket[] Returns an array of Basket objects
+//     * @return OrderProduct[] Returns an array of OrderProduct objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -31,7 +31,7 @@ class BasketRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Basket
+//    public function findOneBySomeField($value): ?OrderProduct
 //    {
 //        return $this->createQueryBuilder('b')
 //            ->andWhere('b.exampleField = :val')

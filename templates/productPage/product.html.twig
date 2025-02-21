@@ -17,15 +17,15 @@
                 <h5> Description </h5>
                 <p>{{product.description}}</p>
             </div>
-            {% if productInBasket == null %}
-                <a href="/basket/add/{{product.id}}" class="main-button"> Ajouter au panier </a>
+            {% if productInOrder == null %}
+                <a href="/order/add/{{product.id}}" class="main-button"> Ajouter au panier </a>
             {% else %}
-                <form class="quantity-form" method="post" action="{{ path('update_quantity', {'id': productInBasket.id}) }}">
+                <form class="quantity-form" method="post" action="{{ path('update_quantity', {'id': productInOrder.id}) }}">
                     <div class="main-button quantity-button-wrapper">
                         <div class="quantity-control">
                             <button type="submit" name="action" value="decrement" class="quantity-button">-</button>
                             <label>
-                                <input type="number" name="quantity" value="{{ productInBasket.quantity }}" class="quantity-input">
+                                <input type="number" name="quantity" value="{{ productInOrder.quantity }}" class="quantity-input">
                             </label>
                             <button type="submit" name="action" value="increment" class="quantity-button">+</button>
                         </div>

@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,30 +41,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var string|null The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToOne(mappedBy: 'owner')]
-    private ?Basket $basket = null;
-
     /**
      * @var Collection<int, Order>
      */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'owner')]
+    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'owner', cascade: ['persist'])]
     private Collection $orders;
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
-        $this->initializeBasket();
-    }
-
-    private function initializeBasket(): void
-    {
-        $this->basket = new Basket();
-        $this->basket->setOwner($this);
     }
 
     public function getId(): ?int
@@ -122,7 +112,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getPassword(): string
     {
         if ($this->password === null) {
-            throw new \LogicException('The password should never be null.');
+            throw new LogicException('The password should never be null.');
         }
 
         return $this->password;
@@ -144,63 +134,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getBasket(): ?Basket
-    {
-        if ($this->basket === null) {
-            $this->basket = new Basket();
-            $this->basket->setOwner($this);
-        }
-
-        return $this->basket;
-    }
-
-    public function setBasket(?Basket $basket): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($basket === null && $this->basket !== null) {
-            $this->basket->setOwner(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($basket !== null && $basket->getOwner() !== $this) {
-            $basket->setOwner($this);
-        }
-
-        $this->basket = $basket;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addProduct(Order $product): static
-    {
-        if (!$this->orders->contains($product)) {
-            $this->orders->add($product);
-            $product->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Order $product): static
-    {
-        if ($this->orders->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getOwner() === $this) {
-                $product->setOwner(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getFirstName(): string
     {
         return $this->firstName;
@@ -219,5 +152,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
+    }
+
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function setOrders(Collection $orders): void
+    {
+        $this->orders = $orders;
+    }
+
+    public function addOrder(Order $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setOwner($this);
+        }
+
+        return $this;
     }
 }

@@ -2,33 +2,24 @@
 
 namespace App\Manager;
 
-use App\Entity\Basket;
 use App\Entity\Order;
+use App\Entity\DeprecatedOrder;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class OrderManager
 {
-
     public function createOrderFromBasket(
-        Basket $basket,
-        EntityManagerInterface $em
-    ): Order
+        Order $basket,
+        EntityManagerInterface $em,
+    ): void
     {
-        $order = new Order();
-        $order->setOwner($basket->getOwner());
-        $order->setOrderedAt(new \DateTimeImmutable());
-        foreach ($basket->getBasketProducts() as $basketProduct) {
-            $basketProduct->setOrder($order);
-            $order->addBasketProduct($basketProduct);
-            $basket->removeBasketProduct($basketProduct);
-            $basketProduct->setBasket(null);
-        }
+        $basket->setStatus(Order::ORDERED);
+        $basket->setOrderedAt(new DateTimeImmutable());
+        $basket->getOwner()->addOrder(new Order());
 
-        $em->persist($order);
-        $em->remove($basket);
+        $em->persist($basket);
         $em->flush();
-
-        return $order;
     }
 
 }

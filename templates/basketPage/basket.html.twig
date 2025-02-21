@@ -1,42 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Basket Page{% endblock %}
+{% block title %}Order Page{% endblock %}
 
 {% block body %}
 
     {% include '/partials/header.twig.html.twig' %}
-    <div class="basket-page">
+    <div class="order-page">
 
-        <div class="my-basket">
+        <div class="my-order">
             <h1> Mon panier </h1>
-            {% if basketProducts != null %}
-            <a href="/basket/clear/{{ basketProducts[0].basket.id }}" class="basket-clear"> x Vider le panier</a>
+            {% if orderItems != null %}
+            <a href="/order/clear/{{ orderItems[0].order.id }}" class="order-clear"> x Vider le panier</a>
             {% endif %}
 
-            {% for basketProduct in basketProducts %}
-            <div class="basket-item">
-                <img src="{{ asset('images/products/' ~ basketProduct.product.imgSrc) }}" alt="Photo de {{basketProduct.product.name}}" />
-                <div class="basket-item-text">
-                    <h2> {{ basketProduct.product.name }} </h2>
-                    <h3> Quantité: {{  basketProduct.quantity }}</h3>
-                    <h4> {{ basketProduct.subTotal }}€ </h4>
+            {% for orderItem in orderItems %}
+            <div class="order-item">
+                <a href="{{ path('app_product', {'id': orderItem.product.id}) }}">
+                    <img src="{{ asset('images/products/' ~ orderItem.product.imgSrc) }}" alt="Photo de {{orderItem.product.name}}" />
+                </a>
+                <div class="order-item-text">
+                    <h2> {{ orderItem.product.name }} </h2>
+                    <h3> Quantité: {{  orderItem.quantity }}</h3>
+                    <h4> {{ orderItem.subTotal }}€ </h4>
                 </div>
             </div>
             {% endfor %}
-            {% if basketProducts|length == 0 %}
-                <div class="basket-item-text">
+            {% if orderItems|length == 0 %}
+                <div class="order-item-text">
                     <h3> Votre panier est vide </h3>
                 </div>
             {% endif %}
-            <div class="basket-total">
+            <div class="order-total">
                 <div>
-                    <h2> Total panier : <span class="basket-amount">{% if basketProducts != null %} {{ basketProducts[0].basket.total }} {% else %} 0 {% endif %}€</span></h2>
+                    <h2> Total panier : <span class="order-amount">{% if orderItems != null %} {{ orderItems[0].order.total }} {% else %} 0 {% endif %}€</span></h2>
                     <h4> Frais de livraison: Offert</h4>
                 </div>
             </div>
 
-            {% if basketProducts|length > 0 %}
-            <a href="/basket/validate/{{ basketProducts[0].basket.id }}" class="main-button"> Valider la commande </a>
+            {% if orderItems|length > 0 %}
+            <a href="/order/validate/{{ orderItems[0].order.id }}" class="main-button"> Valider la commande </a>
             {% else %}
             <a href="/home" class="main-button"> Voir les produits </a>
             {% endif %}

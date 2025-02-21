@@ -2,37 +2,43 @@
 
 namespace App\Entity;
 
-use App\Repository\BasketRepository;
 use App\Repository\OrderRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
+
 class Order
 {
+    const BASKET = 'basket';
+    const ORDERED = 'ordered';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'order')]
     private ?User $owner = null;
 
     /**
-     * @var Collection<int, BasketProduct>
+     * @var Collection<int, OrderItem>
      */
-    #[ORM\ManyToMany(targetEntity: BasketProduct::class)]
-    private Collection $basketProducts;
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'order')]
+    private Collection $orderItems;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $orderedAt = null;
+    private string $status = self::BASKET;
+
+    #[ORM\Column(nullable: true)]
+    private ?DateTimeImmutable $orderedAt = null;
 
     public function __construct()
     {
-        $this->basketProducts = new ArrayCollection();
+        $this->orderItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,37 +59,31 @@ class Order
     }
 
     /**
-     * @return Collection<int, BasketProduct>
+     * @return Collection<int, OrderItem>
      */
-    public function getProducts(): Collection
+    public function getOrderItems(): Collection
     {
-        return $this->basketProducts;
+        return $this->orderItems;
     }
 
-    public function addBasketProduct(BasketProduct $basketProduct): static
+    public function addOrderItem(OrderItem $orderItem): static
     {
-        if (!$this->basketProducts->contains($basketProduct)) {
-            $this->basketProducts->add($basketProduct);
+        if (!$this->orderItems->contains($orderItem)) {
+            $this->orderItems->add($orderItem);
+            $orderItem->setOrder($this);
         }
 
         return $this;
     }
 
-    public function removeBasketProduct(BasketProduct $basketProduct): static
+    public function removeOrderItem(OrderItem $orderItem): static
     {
-        $this->basketProducts->removeElement($basketProduct);
-
-        return $this;
-    }
-
-    public function getOrderedAt(): ?\DateTimeImmutable
-    {
-        return $this->orderedAt;
-    }
-
-    public function setOrderedAt(\DateTimeImmutable $orderedAt): static
-    {
-        $this->orderedAt = $orderedAt;
+        if ($this->orderItems->removeElement($orderItem)) {
+            // set the owning side to null (unless already changed)
+            if ($orderItem->getOrder() === $this) {
+                $orderItem->setOrder(null);
+            }
+        }
 
         return $this;
     }
@@ -91,10 +91,30 @@ class Order
     public function getTotal(): float
     {
         $total = 0;
-        foreach ($this->basketProducts as $basketProduct) {
-            $total += $basketProduct->getProduct()->getPrice() * $basketProduct->getQuantity();
+        foreach ($this->orderItems as $orderItem) {
+            $total += $orderItem->getSubtotal();
         }
 
         return $total;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function getOrderedAt(): ?DateTimeImmutable
+    {
+        return $this->orderedAt;
+    }
+
+    public function setOrderedAt(?DateTimeImmutable $orderedAt): void
+    {
+        $this->orderedAt = $orderedAt;
     }
 }

@@ -2,21 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\BasketProductRepository;
+use App\Repository\orderItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: BasketProductRepository::class)]
-class BasketProduct
+#[ORM\Entity(repositoryClass: orderItemRepository::class)]
+class OrderItem
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'basketProducts')]
-    private ?Basket $basket = null;
-
-    #[ORM\ManyToOne(inversedBy: 'basketProducts')]
+    #[ORM\ManyToOne(inversedBy: 'orderItems')]
     private ?Order $order = null;
 
     #[ORM\ManyToOne]
@@ -30,14 +27,14 @@ class BasketProduct
         return $this->id;
     }
 
-    public function getBasket(): ?Basket
+    public function getOrder(): ?Order
     {
-        return $this->basket;
+        return $this->order;
     }
 
-    public function setBasket(?Basket $basket): static
+    public function setOrder(?Order $order): static
     {
-        $this->basket = $basket;
+        $this->order = $order;
 
         return $this;
     }
@@ -64,7 +61,7 @@ class BasketProduct
         $this->quantity = $quantity;
 
         if ($this->quantity === 0) {
-            $this->basket->removeBasketProduct($this);
+            $this->order->removeorderItem($this);
         }
 
         return $this;
@@ -73,17 +70,6 @@ class BasketProduct
     public function getSubTotal(): float
     {
         return $this->product->getPrice() * $this->quantity;
-    }
-
-    public function setOrder(?Order $order): BasketProduct
-    {
-        $this->order = $order;
-        return $this;
-    }
-
-    public function getOrder(): ?Order
-    {
-        return $this->order;
     }
 
 }

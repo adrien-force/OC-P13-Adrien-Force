@@ -79,6 +79,7 @@ footer {
     border-bottom: 2px solid rgba(58, 106, 77, 0.59);
 }
 
+/*noinspection CssUnusedSymbol*/
 .header-buttons .active {
     border-bottom: 2px solid #3a6a4d;
 }
@@ -532,11 +533,11 @@ input:focus, textarea:focus, select:focus {
     box-shadow: none;
 }
 
-body:has(.basket-page) {
+body:has(.order-page) {
     background-color: #f6efe9 ;
 }
 
-.basket-page {
+.order-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -546,14 +547,14 @@ body:has(.basket-page) {
     overflow: hidden;
 }
 
-.basket-page h1 {
+.order-page h1 {
     font-size: 20px;
     font-weight: var(--font-medium);
     color: #333333;
     margin-bottom: 19px;
 }
 
-.basket-clear {
+.order-clear {
     align-self: baseline;
     font-size: 14px;
     font-weight: var(--font-regular);
@@ -561,7 +562,7 @@ body:has(.basket-page) {
     margin-bottom: 17px;
 }
 
-.my-basket {
+.my-order {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -570,7 +571,7 @@ body:has(.basket-page) {
     height: 100%;
 }
 
-.basket-item {
+.order-item {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -578,13 +579,13 @@ body:has(.basket-page) {
     background-color: #fffdf6;
 }
 
-.basket-item img {
+.order-item img {
     width: 150px;
     height: 150px;
     margin: 45px;
 }
 
-.basket-total {
+.order-total {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -593,48 +594,48 @@ body:has(.basket-page) {
     margin-bottom: 29px;
 }
 
-.basket-item-text {
+.order-item-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-content: flex-start;
 }
 
-.basket-item-text h2 {
+.order-item-text h2 {
     font-size: 14px;
     font-weight: var(--font-semi-bold);
     color: #000000;
     margin: 0 0 6px 0;
 }
 
-.basket-item-text h3 {
+.order-item-text h3 {
     font-size: 14px;
     font-weight: var(--font-regular);
     color: #666666;
     margin-bottom: 13px;
 }
 
-.basket-item-text h4 {
+.order-item-text h4 {
     font-size: 18px;
     font-weight: var(--font-medium);
     color: #333333;
 }
 
-.basket-total h2 {
+.order-total h2 {
     margin: 24px 0 6px 0;
     font-size: 14px;
     font-weight: var(--font-medium);
     color: #333333;
 }
 
-.basket-amount {
+.order-amount {
     font-size: 20px;
     font-weight: var(--font-regular);
     color: #333333;
     margin-right: 38px;
 }
 
-.basket-total h4 {
+.order-total h4 {
     font-size: 12px;
     font-weight: var(--font-regular);
     color: #666666;

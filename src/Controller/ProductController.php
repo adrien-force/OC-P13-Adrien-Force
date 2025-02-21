@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\AddProductFormType;
-use App\Repository\BasketRepository;
+use App\Repository\OrderRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +17,7 @@ class ProductController extends AbstractController
     #[Route('/product/{id}', name: 'app_product')]
     public function productPage(
         Product $product,
-        BasketRepository $basketRepository,
+        OrderRepository $orderRepository,
         UserRepository $userRepository
     ): Response
     {
@@ -25,16 +25,16 @@ class ProductController extends AbstractController
 
         if ($User !== null) {
             $userId = $userRepository->findOneBy(['email' => $User]);
-            $basket = $basketRepository->findOneBy(['owner' => $userId]);
-            $basketProducts = $basket->getBasketProducts();
-            $productInBasket = $basketProducts->filter(function($basketProduct) use ($product) {
-                return $basketProduct->getProduct() === $product;
+            $order = $orderRepository->findBasketForUser($userId)[0];
+            $orderItems = $order->getOrderItems();
+            $productInOrder = $orderItems->filter(function($orderProduct) use ($product) {
+                return $orderProduct->getProduct() === $product;
             })->first();
         }
 
         return $this->render('productPage/product.html.twig', [
             'controller_name' => 'HomeController',
-            'productInBasket' => $productInBasket ?? null,
+            'productInOrder' => $productInOrder ?? null,
             'product' => $product,
         ]);
     }
