@@ -10,7 +10,9 @@
         {% for product in products %}
         <div class="product-card">
             <a href="{{ path('app_product', { 'id': product.id }) }}">
-                <img src="{{ asset('images/products/' ~ product.imgSrc) }}" alt="Photo de {{product.name}}" /></a>
+                <img src="{{ asset('images/products/' ~ product.imgSrc) }}" alt="Photo de {{product.name}}"
+                     loading="lazy"
+                /></a>
             <div class="product-card-text">
                 <h3> {{ product.name}} </h3>
                 <h4>{{ product.descPreview }}</h4>
