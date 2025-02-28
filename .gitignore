@@ -24,3 +24,11 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 /.idea/*
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+/config/secrets/dev/dev.decrypt.private.php
+/config/secrets/dev/dev.encrypt.public.php
+/config/secrets/dev/dev.JWT_PASSPHRASE.0269d8.php
+/config/secrets/dev/dev.list.php
