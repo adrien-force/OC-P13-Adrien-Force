@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\orderItemRepository;
+use App\Repository\OrderItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: orderItemRepository::class)]
+#[ORM\Entity(repositoryClass: OrderItemRepository::class)]
 class OrderItem
 {
     #[ORM\Id]
@@ -61,7 +61,7 @@ class OrderItem
         $this->quantity = $quantity;
 
         if (0 === $this->quantity) {
-            $this->order->removeorderItem($this);
+            $this->order?->removeorderItem($this);
         }
 
         return $this;
@@ -69,6 +69,6 @@ class OrderItem
 
     public function getSubTotal(): float
     {
-        return $this->product->getPrice() * $this->quantity;
+        return $this->product?->getPrice() * $this->quantity;
     }
 }
