@@ -12,14 +12,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AccountController extends AbstractController
 {
-
     #[Route('/account', name: 'app_account')]
-    public function accountPage
-    (
+    public function accountPage(
         OrderRepository $orderRepository,
-        UserRepository $userRepository
-    ): Response
-    {
+        UserRepository $userRepository,
+    ): Response {
         $userId = $userRepository->find($this->getUser()->getId());
         $user = $userRepository->findOneBy(['id' => $userId]);
 
@@ -34,8 +31,7 @@ final class AccountController extends AbstractController
     public function allowAPIAccess(
         UserRepository $userRepository,
         EntityManagerInterface $em,
-    ): void
-    {
+    ): void {
         $user = $userRepository->find($this->getUser()->getId());
         $user->addRole(AppUser::API_ACCESS);
         $em->persist($user);

@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Order
 {
-    const BASKET = 'basket';
-    const ORDERED = 'ordered';
+    public const BASKET = 'basket';
+    public const ORDERED = 'ordered';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,7 +33,7 @@ class Order
     private string $status = self::BASKET;
 
     #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $orderedAt = null;
+    private ?\DateTimeImmutable $orderedAt = null;
 
     public function __construct()
     {
@@ -108,12 +107,12 @@ class Order
         $this->status = $status;
     }
 
-    public function getOrderedAt(): ?DateTimeImmutable
+    public function getOrderedAt(): ?\DateTimeImmutable
     {
         return $this->orderedAt;
     }
 
-    public function setOrderedAt(?DateTimeImmutable $orderedAt): void
+    public function setOrderedAt(?\DateTimeImmutable $orderedAt): void
     {
         $this->orderedAt = $orderedAt;
     }

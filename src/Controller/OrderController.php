@@ -16,18 +16,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class OrderController extends AbstractController{
-
+final class OrderController extends AbstractController
+{
     #[Route('/order/add/{id}', name: 'app_order_add')]
     public function addProductToOrder(
         Product $product,
         UserRepository $userRepository,
         OrderRepository $orderRepository,
-        EntityManagerInterface $em
-    ): Response
-    {
+        EntityManagerInterface $em,
+    ): Response {
         $user = $this->getUser();
-        if ($user === null) {
+        if (null === $user) {
             return $this->redirectToRoute('app_login');
         }
         $userIdentifier = $user->getUserIdentifier();
@@ -36,17 +35,17 @@ final class OrderController extends AbstractController{
         $order = $orderRepository->findBasketForUser($user)[0];
 
 
-        if ($order === null) {
+        if (null === $order) {
             $order = new Order();
             $order->setOwner($user);
             $user->setOrder($order);
         }
 
-        $orderProduct = $order->getOrderItems()->filter(function($orderProduct) use ($product) {
+        $orderProduct = $order->getOrderItems()->filter(function ($orderProduct) use ($product) {
             return $orderProduct->getProduct() === $product;
         })->first();
 
-        if ($orderProduct !== false) {
+        if (false !== $orderProduct) {
             $orderProduct->setQuantity($orderProduct->getQuantity() + 1);
         } else {
             $orderProduct = new OrderItem();
@@ -68,10 +67,9 @@ final class OrderController extends AbstractController{
     public function basketPage(
         OrderRepository $orderRepository,
         UserRepository $userRepository,
-    ): Response
-    {
+    ): Response {
         $user = $this->getUser();
-        if ($user === null) {
+        if (null === $user) {
             return $this->redirectToRoute('app_login');
         }
 
@@ -95,10 +93,9 @@ final class OrderController extends AbstractController{
 
     #[Route('/order/clear/{id}', name: 'app_order_clear')]
     public function clearOrder(
-        Order                  $order,
-        EntityManagerInterface $em
-    ): Response
-    {
+        Order $order,
+        EntityManagerInterface $em,
+    ): Response {
         $orderItems = $order->getOrderItems();
         foreach ($orderItems as $orderProduct) {
             $em->remove($orderProduct);
@@ -109,27 +106,23 @@ final class OrderController extends AbstractController{
     }
 
     #[Route('/order/validate/{id}', name: 'app_order_validate')]
-    public function validateOrder
-    (
-        Order                  $order,
-        OrderManager           $orderManager,
+    public function validateOrder(
+        Order $order,
+        OrderManager $orderManager,
         EntityManagerInterface $em,
-    ): RedirectResponse
-    {
+    ): RedirectResponse {
         $orderManager->createOrderFromBasket($order, $em);
 
         return $this->redirectToRoute('app_account');
     }
 
     #[Route('/update-quantity/{id}', name: 'update_quantity', methods: ['POST'])]
-    public function updateQuantity
-    (
-        Request                $request,
-                               $id,
-        OrderItemRepository    $orderProductRepository,
-        EntityManagerInterface $em
-    ): RedirectResponse
-    {
+    public function updateQuantity(
+        Request $request,
+        $id,
+        OrderItemRepository $orderProductRepository,
+        EntityManagerInterface $em,
+    ): RedirectResponse {
         $action = $request->request->get('action');
 
         $orderProduct = $orderProductRepository->find($id);
@@ -138,10 +131,10 @@ final class OrderController extends AbstractController{
         $quantity = $orderProduct->getQuantity();
 
         match ($action) {
-            'increment' => $quantity += 1,
-            'decrement' => $quantity -= 1,
+            'increment' => ++$quantity,
+            'decrement' => --$quantity,
             'update' => $quantity = $request->request->get('quantity'),
-            default => $quantity
+            default => $quantity,
         };
 
 
@@ -151,5 +144,4 @@ final class OrderController extends AbstractController{
 
         return $this->redirectToRoute('app_product', ['id' => $productId]);
     }
-
 }

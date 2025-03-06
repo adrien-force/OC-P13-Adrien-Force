@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
-
     public const CACHE_TAG_LIST = 'cache_product_list';
     public const GROUP_LIST = 'product:list';
     #[ORM\Id]

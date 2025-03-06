@@ -31,8 +31,8 @@ class CustomAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): bool
     {
-        return $request->getPathInfo() !== null &&
-            str_starts_with($request->getPathInfo(), '/api');
+        return null !== $request->getPathInfo()
+            && str_starts_with($request->getPathInfo(), '/api');
     }
 
     public function authenticate(Request $request): Passport
@@ -43,7 +43,7 @@ class CustomAuthenticator extends AbstractAuthenticator
         $password = $content['password'] ?? '';
 
         return new Passport(
-            new UserBadge($email, fn($userIdentifier) => $this->loadUserByIdentifier($userIdentifier, $password)),
+            new UserBadge($email, fn ($userIdentifier) => $this->loadUserByIdentifier($userIdentifier, $password)),
             new PasswordCredentials($password)
         );
     }
@@ -57,14 +57,10 @@ class CustomAuthenticator extends AbstractAuthenticator
     {
         return match (true) {
             $exception instanceof UserNotFoundException,
-                $exception instanceof BadCredentialsException
-            => new JsonResponse(['message' => 'Identifiants incorrects'], Response::HTTP_UNAUTHORIZED),
-            $exception instanceof CustomUserMessageAuthenticationException
-            => new JsonResponse(['message' => 'Accès API non activé'], Response::HTTP_FORBIDDEN),
-            $exception instanceof AuthenticationException
-            => new JsonResponse(['message' => 'Veuillez fournir username et password'], Response::HTTP_BAD_REQUEST),
-            default
-            => new JsonResponse(['message' => 'Erreur d\'authentification'], Response::HTTP_INTERNAL_SERVER_ERROR),
+            $exception instanceof BadCredentialsException => new JsonResponse(['message' => 'Identifiants incorrects'], Response::HTTP_UNAUTHORIZED),
+            $exception instanceof CustomUserMessageAuthenticationException => new JsonResponse(['message' => 'Accès API non activé'], Response::HTTP_FORBIDDEN),
+            $exception instanceof AuthenticationException => new JsonResponse(['message' => 'Veuillez fournir username et password'], Response::HTTP_BAD_REQUEST),
+            default => new JsonResponse(['message' => 'Erreur d\'authentification'], Response::HTTP_INTERNAL_SERVER_ERROR),
         };
     }
 

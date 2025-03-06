@@ -3,10 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use LogicException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -18,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    const API_ACCESS = 'ROLE_API_ACCESS';
+    public const API_ACCESS = 'ROLE_API_ACCESS';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -87,6 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @see UserInterface
+     *
      * @return list<string>
      */
     public function getRoles(): array
@@ -130,8 +129,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        if ($this->password === null) {
-            throw new LogicException('The password should never be null.');
+        if (null === $this->password) {
+            throw new \LogicException('The password should never be null.');
         }
 
         return $this->password;

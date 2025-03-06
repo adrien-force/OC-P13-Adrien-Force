@@ -60,7 +60,7 @@ class OrderItem
     {
         $this->quantity = $quantity;
 
-        if ($this->quantity === 0) {
+        if (0 === $this->quantity) {
             $this->order->removeorderItem($this);
         }
 
@@ -71,5 +71,4 @@ class OrderItem
     {
         return $this->product->getPrice() * $this->quantity;
     }
-
 }

@@ -21,23 +21,21 @@ use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 use OpenApi\Attributes as OA;
 
-
 class ProductController extends AbstractController
 {
     #[Route('/product/{id}', name: 'app_product')]
     public function productPage(
         Product $product,
         OrderRepository $orderRepository,
-        UserRepository $userRepository
-    ): Response
-    {
+        UserRepository $userRepository,
+    ): Response {
         $User = $this->getUser()?->getUserIdentifier();
 
-        if ($User !== null) {
+        if (null !== $User) {
             $userId = $userRepository->findOneBy(['email' => $User]);
             $order = $orderRepository->findBasketForUser($userId)[0];
             $orderItems = $order->getOrderItems();
-            $productInOrder = $orderItems->filter(function($orderProduct) use ($product) {
+            $productInOrder = $orderItems->filter(function ($orderProduct) use ($product) {
                 return $orderProduct->getProduct() === $product;
             })->first();
         }
@@ -52,9 +50,8 @@ class ProductController extends AbstractController
     #[Route('/product/add', name: 'app_product_add')]
     public function addProduct(
         Request $request,
-        EntityManagerInterface $em
-    ): Response
-    {
+        EntityManagerInterface $em,
+    ): Response {
         $product = new Product();
         $form = $this->createForm(AddProductFormType::class, $product);
         $form->handleRequest($request);
@@ -63,6 +60,7 @@ class ProductController extends AbstractController
             $em->persist($product);
             $em->flush();
             $this->addFlash('success', 'Product added successfully');
+
             return $this->redirectToRoute('app_product');
         }
 
@@ -83,22 +81,22 @@ class ProductController extends AbstractController
     #[Security(name: 'Bearer')]
     public function productList(
         ProductRepository $productRepository,
-        SerializerInterface    $serializer,
-        TagAwareCacheInterface $cache
-    ): JsonResponse
-    {
+        SerializerInterface $serializer,
+        TagAwareCacheInterface $cache,
+    ): JsonResponse {
 
         try {
-            $products = $cache->get(Product::CACHE_TAG_LIST, function(ItemInterface $item) use ($productRepository) {
+            $products = $cache->get(Product::CACHE_TAG_LIST, function (ItemInterface $item) use ($productRepository) {
                 $item->tag(Product::CACHE_TAG_LIST);
                 $item->expiresAfter(86400); // 24 hours cache time
+
                 return $productRepository->findAll();
             });
         } catch (InvalidArgumentException) {
             return new JsonResponse('Internal server error', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        if ($products === []) {
+        if ([] === $products) {
             throw $this->createNotFoundException('There are no products yet on the site, please check back later');
         }
 
@@ -106,5 +104,4 @@ class ProductController extends AbstractController
 
         return new JsonResponse($serializedProducts, Response::HTTP_OK, [], true);
     }
-
 }

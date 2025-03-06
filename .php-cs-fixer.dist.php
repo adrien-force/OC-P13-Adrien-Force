@@ -1,15 +1,14 @@
 <?php
 
-$finder = (new PhpCsFixer\Finder())
+$finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
 ;
 
 return (new PhpCsFixer\Config())
     ->setRules([
-        '@PER-CS' => true,
-        '@PSR12' => true,
         '@Symfony' => true,
-        '@PHP82Migration' => true,
+        '@PSR12' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'no_unused_imports' => true,
     ])
-    ->setFinder($finder)
-    ;
+    ->setFinder($finder);
