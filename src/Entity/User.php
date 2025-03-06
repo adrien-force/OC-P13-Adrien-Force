@@ -29,10 +29,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private string $lastName = '';
 
+    /**
+     * @var non-empty-string
+     */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\Email(message: 'The email "{{ value }}" is not a valid email.')]
     #[Assert\NotBlank]
-    private ?string $email = null;
+    private string $email;
 
     /**
      * @var list<string> The user roles
@@ -66,6 +69,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
+    /**
+     * @param non-empty-string $email
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -74,13 +80,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
+     * @return non-empty-string
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /**
@@ -90,11 +94,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
+        /** @var list<string> $roles */
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        $uniqueRoles = array_unique($roles);
+
+        // Re-index to ensure it's still a list
+        /* @var list<string> */
+        return array_values($uniqueRoles);
     }
 
     /**
@@ -172,11 +181,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->lastName = $lastName;
     }
 
+    /**
+     * @return Collection<int, Order>
+     */
     public function getOrders(): Collection
     {
         return $this->orders;
     }
 
+    /**
+     * @param Collection<int, Order> $orders
+     */
     public function setOrders(Collection $orders): void
     {
         $this->orders = $orders;
