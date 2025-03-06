@@ -32,3 +32,8 @@
 /config/secrets/dev/dev.encrypt.public.php
 /config/secrets/dev/dev.JWT_PASSPHRASE.0269d8.php
 /config/secrets/dev/dev.list.php
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
