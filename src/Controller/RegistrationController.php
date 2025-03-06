@@ -21,9 +21,10 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = (string) $form->get('plainPassword')->getData();
-
-            // encode the plain password
+            $plainPassword = $form->get('plainPassword')->getData();
+            if (!is_string($plainPassword)) {
+                throw new \LogicException('The password must be a string.');
+            }
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
             $entityManager->persist($user);
