@@ -19,7 +19,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 
-class CustomAuthenticator extends AbstractAuthenticator
+class CustomAPIAuthenticator extends AbstractAuthenticator
 {
     private UserRepository $userRepository;
     private UserPasswordHasherInterface $userPasswordHasher;
