@@ -4,25 +4,32 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
+
+    public const CACHE_TAG_LIST = 'cache_product_list';
+    public const GROUP_LIST = 'product:list';
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([Product::GROUP_LIST])]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups([Product::GROUP_LIST])]
     private ?float $price = null;
 
     #[ORM\Column(type: 'text', length: 500, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(type: 'text', length: 150, nullable: true)]
+    #[Groups([Product::GROUP_LIST])]
     private ?string $descPreview = null;
 
     #[ORM\Column(length: 255)]
