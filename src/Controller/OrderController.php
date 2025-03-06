@@ -8,7 +8,7 @@ use App\Entity\Product;
 use App\Manager\OrderManager;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderRepository;
-use App\Repository\UserRepository;
+use App\Service\UserResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,19 +18,18 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class OrderController extends AbstractController
 {
+    public function __construct(
+        private readonly UserResolver $userResolver,
+    ) {
+    }
+
     #[Route('/order/add/{id}', name: 'app_order_add')]
     public function addProductToOrder(
         Product $product,
-        UserRepository $userRepository,
         OrderRepository $orderRepository,
         EntityManagerInterface $em,
     ): Response {
-        $user = $this->getUser();
-        if (null === $user) {
-            return $this->redirectToRoute('app_login');
-        }
-        $userIdentifier = $user->getUserIdentifier();
-        $user = $userRepository->findOneBy(['email' => $userIdentifier]);
+        $user = $this->userResolver->getAuthenticatedUser();
 
         $order = $orderRepository->findBasketForUser($user)[0];
 
@@ -38,7 +37,7 @@ final class OrderController extends AbstractController
         if (null === $order) {
             $order = new Order();
             $order->setOwner($user);
-            $user->setOrder($order);
+            $user->addOrder($order);
         }
 
         $orderProduct = $order->getOrderItems()->filter(function ($orderProduct) use ($product) {
@@ -66,18 +65,10 @@ final class OrderController extends AbstractController
     #[Route('/basket', name: 'app_basket')]
     public function basketPage(
         OrderRepository $orderRepository,
-        UserRepository $userRepository,
     ): Response {
-        $user = $this->getUser();
-        if (null === $user) {
-            return $this->redirectToRoute('app_login');
-        }
+        $user = $this->userResolver->getAuthenticatedUser();
 
-        $userIdentifier = $this->getUser()->getUserIdentifier();
-        /** $userID User **/
-        $userID = $userRepository->findOneBy(['email' => $userIdentifier]);
-
-        $order = $orderRepository->findBasketForUser($userID)[0];
+        $order = $orderRepository->findBasketForUser($user)[0];
 
         dump($order);
         $orderItems = $order->getOrderItems();
@@ -119,15 +110,21 @@ final class OrderController extends AbstractController
     #[Route('/update-quantity/{id}', name: 'update_quantity', methods: ['POST'])]
     public function updateQuantity(
         Request $request,
-        $id,
+        int $id,
         OrderItemRepository $orderProductRepository,
         EntityManagerInterface $em,
     ): RedirectResponse {
         $action = $request->request->get('action');
 
-        $orderProduct = $orderProductRepository->find($id);
-        $productId = $orderProduct->getProduct()->getId();
+        $orderProduct = $orderProductRepository->findOneById($id);
 
+        if (null === $orderProduct) {
+            throw $this->createNotFoundException(sprintf('OrderProduct with id %d not found', $id));
+        }
+        $productId = $orderProduct->getProduct()?->getId();
+        if (null === $productId) {
+            throw $this->createNotFoundException(sprintf('Product with id %d not found', $productId));
+        }
         $quantity = $orderProduct->getQuantity();
 
         match ($action) {
@@ -137,8 +134,7 @@ final class OrderController extends AbstractController
             default => $quantity,
         };
 
-
-        $orderProduct->setQuantity($quantity);
+        $orderProduct->setQuantity((int) $quantity);
         $em->persist($orderProduct);
         $em->flush();
 

@@ -7,6 +7,7 @@ use App\Form\AddProductFormType;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
+use App\Service\UserResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use Nelmio\ApiDocBundle\Attribute\Security;
@@ -23,25 +24,25 @@ use OpenApi\Attributes as OA;
 
 class ProductController extends AbstractController
 {
+    public function __construct(private readonly UserResolver $userResolver)
+    {
+    }
+
     #[Route('/product/{id}', name: 'app_product')]
     public function productPage(
         Product $product,
         OrderRepository $orderRepository,
-        UserRepository $userRepository,
     ): Response {
-        $User = $this->getUser()?->getUserIdentifier();
+        $user = $this->userResolver->getAuthenticatedUser();
 
-        if (null !== $User) {
-            $userId = $userRepository->findOneBy(['email' => $User]);
-            $order = $orderRepository->findBasketForUser($userId)[0];
-            $orderItems = $order->getOrderItems();
-            $productInOrder = $orderItems->filter(function ($orderProduct) use ($product) {
-                return $orderProduct->getProduct() === $product;
-            })->first();
-        }
+        $order = $orderRepository->findBasketForUser($user)[0];
+        $orderItems = $order->getOrderItems();
+        $productInOrder = $orderItems->filter(function ($orderProduct) use ($product) {
+            return $orderProduct->getProduct() === $product;
+        })->first();
+
 
         return $this->render('productPage/product.html.twig', [
-            'controller_name' => 'HomeController',
             'productInOrder' => $productInOrder ?? null,
             'product' => $product,
         ]);

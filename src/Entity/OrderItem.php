@@ -20,7 +20,7 @@ class OrderItem
     private ?Product $product = null;
 
     #[ORM\Column]
-    private ?int $quantity = null;
+    private int $quantity = 1;
 
     public function getId(): ?int
     {
@@ -51,7 +51,7 @@ class OrderItem
         return $this;
     }
 
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->quantity;
     }

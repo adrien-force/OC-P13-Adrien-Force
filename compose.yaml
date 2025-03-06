@@ -27,6 +27,7 @@ services:
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
 
   php:
+    container_name: php
     build:
       context: .
       dockerfile: Dockerfile
