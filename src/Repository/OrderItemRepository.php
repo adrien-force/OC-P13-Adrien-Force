@@ -6,6 +6,7 @@ use App\Entity\OrderItem;
 use App\Exception\UnexpectedTypeException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * @extends ServiceEntityRepository<OrderItem>
  */
@@ -15,6 +16,7 @@ class OrderItemRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, OrderItem::class);
     }
+
     public function findOneById(int $id): ?OrderItem
     {
         $orderItem = $this->createQueryBuilder('o')

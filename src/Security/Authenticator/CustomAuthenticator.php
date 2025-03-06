@@ -72,7 +72,6 @@ class CustomAuthenticator extends AbstractAuthenticator
     }
 
     /**
-     * @param Request $request
      * @return array<JsonContent>
      */
     public function validateRequest(Request $request): array
