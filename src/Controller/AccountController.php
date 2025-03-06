@@ -17,8 +17,12 @@ final class AccountController extends AbstractController
         OrderRepository $orderRepository,
         UserRepository $userRepository,
     ): Response {
-        $userId = $userRepository->find($this->getUser()->getId());
-        $user = $userRepository->findOneBy(['id' => $userId]);
+        $userEmail = $userRepository->find($this->getUser()?->getUserIdentifier());
+        $user = $userRepository->findOneBy(['email' => $userEmail]);
+
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
 
         $orders = $orderRepository->findOrderedForUser($user);
 
@@ -32,7 +36,11 @@ final class AccountController extends AbstractController
         UserRepository $userRepository,
         EntityManagerInterface $em,
     ): void {
-        $user = $userRepository->find($this->getUser()->getId());
+        $user = $userRepository->find($this->getUser()?->getUserIdentifier());
+
+        if (!$user) {
+            throw $this->createNotFoundException('User not found');
+        }
         $user->addRole(AppUser::API_ACCESS);
         $em->persist($user);
         $em->flush();
