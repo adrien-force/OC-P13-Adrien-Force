@@ -13,7 +13,12 @@ final class OrderManager
     ): void {
         $basket->setStatus(Order::ORDERED);
         $basket->setOrderedAt(new \DateTimeImmutable());
-        $basket->getOwner()->addOrder(new Order());
+
+        $owner = $basket->getOwner();
+        if (null === $owner) {
+            throw new \LogicException('Basket owner must be set before creating an order.');
+        }
+        $owner->addOrder(new Order());
 
         $em->persist($basket);
         $em->flush();
