@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Order;
 use App\Entity\User;
+use App\Exception\UnexpectedTypeException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,9 +18,9 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
-    public function findBasketForUser(User $user)
+    public function findBasketForUser(User $user): ?Order
     {
-        return $this->createQueryBuilder('b')
+        $basket =  $this->createQueryBuilder('b')
             ->where('b.owner = :userId')
             ->andWhere('b.status = :basket')
             ->setParameter('userId', $user->getId())
@@ -27,17 +28,29 @@ class OrderRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getResult();
+
+        if (null !== $basket && !$basket instanceof Order) {
+            throw new UnexpectedTypeException(Order::class, $basket);
+        }
+
+        return $basket;
     }
 
-    public function findOrderedForUser(User $user)
+    public function findOrderedForUser(User $user): ?Order
     {
-        return $this->createQueryBuilder('b')
+        $order =  $this->createQueryBuilder('b')
             ->where('b.owner = :userId')
             ->andWhere('b.status = :ordered')
             ->setParameter('userId', $user->getId())
             ->setParameter('ordered', 'ordered')
             ->getQuery()
             ->getResult();
+
+        if (null !== $order && !$order instanceof Order) {
+            throw new UnexpectedTypeException(Order::class, $order);
+        }
+
+        return $order;
     }
 
     //    /**

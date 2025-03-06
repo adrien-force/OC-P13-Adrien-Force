@@ -6,7 +6,6 @@ use App\Entity\Product;
 use App\Form\AddProductFormType;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
-use App\Repository\UserRepository;
 use App\Service\UserResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Attribute\Model;
@@ -35,12 +34,13 @@ class ProductController extends AbstractController
     ): Response {
         $user = $this->userResolver->getAuthenticatedUser();
 
-        $order = $orderRepository->findBasketForUser($user)[0];
-        $orderItems = $order->getOrderItems();
-        $productInOrder = $orderItems->filter(function ($orderProduct) use ($product) {
-            return $orderProduct->getProduct() === $product;
-        })->first();
-
+        $order = $orderRepository->findBasketForUser($user);
+        if ($order) {
+            $orderItems = $order->getOrderItems();
+            $productInOrder = $orderItems->filter(function ($orderProduct) use ($product) {
+                return $orderProduct->getProduct() === $product;
+            })->first();
+        }
 
         return $this->render('productPage/product.html.twig', [
             'productInOrder' => $productInOrder ?? null,

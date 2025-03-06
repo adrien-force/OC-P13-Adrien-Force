@@ -4,6 +4,7 @@ namespace App\Security\Authenticator;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use OpenApi\Attributes\JsonContent;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,7 @@ class CustomAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): bool
     {
-        return null !== $request->getPathInfo()
+        return '' !== $request->getPathInfo()
             && str_starts_with($request->getPathInfo(), '/api');
     }
 
@@ -39,7 +40,13 @@ class CustomAuthenticator extends AbstractAuthenticator
     {
         $content = $this->validateRequest($request);
 
+        /**
+         * @var string $email
+         */
         $email = $content['username'] ?? '';
+        /**
+         * @var string $password
+         */
         $password = $content['password'] ?? '';
 
         return new Passport(
@@ -53,7 +60,7 @@ class CustomAuthenticator extends AbstractAuthenticator
         return null;
     }
 
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse
+    public function onAuthenticationFailure(Request $request, \Throwable $exception): JsonResponse
     {
         return match (true) {
             $exception instanceof UserNotFoundException,
@@ -64,9 +71,16 @@ class CustomAuthenticator extends AbstractAuthenticator
         };
     }
 
+    /**
+     * @param Request $request
+     * @return array<JsonContent>
+     */
     public function validateRequest(Request $request): array
     {
         try {
+            /**
+             * @var array<JsonContent> $content
+             */
             $content = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new AuthenticationException('Invalid JSON format');

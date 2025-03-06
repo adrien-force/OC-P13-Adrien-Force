@@ -31,7 +31,7 @@ final class OrderController extends AbstractController
     ): Response {
         $user = $this->userResolver->getAuthenticatedUser();
 
-        $order = $orderRepository->findBasketForUser($user)[0];
+        $order = $orderRepository->findBasketForUser($user);
 
 
         if (null === $order) {
@@ -68,9 +68,14 @@ final class OrderController extends AbstractController
     ): Response {
         $user = $this->userResolver->getAuthenticatedUser();
 
-        $order = $orderRepository->findBasketForUser($user)[0];
+        $order = $orderRepository->findBasketForUser($user);
 
-        dump($order);
+        if (null === $order) {
+            $order = new Order();
+            $order->setOwner($user);
+            $user->addOrder($order);
+        }
+
         $orderItems = $order->getOrderItems();
 
         if ($orderItems->isEmpty()) {
