@@ -23,18 +23,4 @@ final class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/api/test/{name}', name: 'api_test', methods: ['GET'])]
-    #[OA\Response(
-        response: 200,
-        description: 'Returns the test response',
-        content: new OA\JsonContent(
-            type: 'string',
-            example: 'Hello World'
-        )
-    )]
-    #[Security(name: 'Bearer')]
-    public function apiTestRoute(string $name): Response
-    {
-        return new Response('Hello '.$name);
-    }
 }
