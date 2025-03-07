@@ -6,8 +6,6 @@ use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Nelmio\ApiDocBundle\Attribute\Security;
-use OpenApi\Attributes as OA;
 
 final class HomeController extends AbstractController
 {
@@ -22,5 +20,4 @@ final class HomeController extends AbstractController
             'products' => $products,
         ]);
     }
-
 }

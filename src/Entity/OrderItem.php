@@ -67,6 +67,18 @@ class OrderItem
         return $this;
     }
 
+    public function incrementQuantity(): void
+    {
+        ++$this->quantity;
+    }
+
+    public function decrementQuantity(): void
+    {
+        if ($this->quantity > 0) {
+            --$this->quantity;
+        }
+    }
+
     public function getSubTotal(): float
     {
         return $this->product?->getPrice() * $this->quantity;

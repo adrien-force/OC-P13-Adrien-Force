@@ -116,4 +116,17 @@ class Order
     {
         $this->orderedAt = $orderedAt;
     }
+
+    public function getOrderItemByProduct(Product $product): ?OrderItem
+    {
+        $orderItem = $this->getOrderItems()->filter(function ($orderItem) use ($product) {
+            return $orderItem->getProduct() === $product;
+        })->first();
+
+        if ($orderItem instanceof OrderItem) {
+            return $orderItem;
+        }
+
+        return null;
+    }
 }
