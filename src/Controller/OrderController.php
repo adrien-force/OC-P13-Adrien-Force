@@ -62,10 +62,8 @@ final class OrderController extends AbstractController
     }
 
     #[Route('/order/clear/{id}', name: 'app_order_clear')]
-    public function clearOrder(
-        Order $order,
-    ): Response {
-
+    public function clearOrder(Order $order): Response
+    {
         $this->orderManager->clearBasket($order);
 
         return $this->redirectToRoute('app_basket');
