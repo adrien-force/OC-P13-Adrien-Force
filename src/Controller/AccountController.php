@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\User as AppUser;
+use App\Manager\UserManager;
 use App\Repository\OrderRepository;
-use App\Repository\UserRepository;
 use App\Service\UserResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,14 +31,10 @@ final class AccountController extends AbstractController
 
     #[Route('/account/api-access', name: 'app_account_api_access')]
     public function allowAPIAccess(
-        UserRepository $userRepository,
         EntityManagerInterface $em,
+        UserManager $userManager,
     ): void {
         $user = $this->userResolver->getAuthenticatedUser();
-
-        $user->addRole(AppUser::API_ACCESS);
-        $em->persist($user);
-        $em->flush();
-
+        $userManager->activateAPIAccess($user);
     }
 }

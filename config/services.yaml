@@ -21,7 +21,7 @@ services:
             - '../src/Kernel.php'
 
     app.custom_authenticator:
-        class: App\Security\Authenticator\CustomAuthenticator
+        class: App\Security\Authenticator\CustomAPIAuthenticator
         autowire: true
         autoconfigure: true
 
