@@ -14,6 +14,7 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([Product::GROUP_LIST])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -25,6 +26,7 @@ class Product
     private ?float $price = null;
 
     #[ORM\Column(type: 'text', length: 500, nullable: true)]
+    #[Groups([Product::GROUP_LIST])]
     private ?string $description = null;
 
     #[ORM\Column(type: 'text', length: 150, nullable: true)]
