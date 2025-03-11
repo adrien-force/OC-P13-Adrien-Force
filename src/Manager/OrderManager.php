@@ -87,4 +87,18 @@ final readonly class OrderManager
         $this->em->persist($order);
         $this->em->flush();
     }
+
+    public function getOrderItemFromOrderByProduct(Order $order, Product $product): ?OrderItem
+    {
+        $orderItems = $order->getOrderItems();
+        $orderItem = $orderItems->filter(function ($orderProduct) use ($product) {
+            return $orderProduct->getProduct() === $product;
+        })->first();
+
+        if (!$orderItem instanceof OrderItem) {
+            return null;
+        }
+
+        return $orderItem;
+    }
 }

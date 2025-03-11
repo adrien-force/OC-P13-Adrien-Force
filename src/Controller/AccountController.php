@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Manager\UserManager;
 use App\Repository\OrderRepository;
 use App\Service\UserResolver;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -31,7 +30,6 @@ final class AccountController extends AbstractController
 
     #[Route('/account/api-access', name: 'app_account_api_access')]
     public function allowAPIAccess(
-        EntityManagerInterface $em,
         UserManager $userManager,
     ): void {
         $user = $this->userResolver->getAuthenticatedUser();

@@ -30,8 +30,8 @@ final class OrderController extends AbstractController
         Product $product,
         OrderRepository $orderRepository,
     ): Response {
-        $user = $this->userResolver->getAuthenticatedUser();
 
+        $user = $this->userResolver->getAuthenticatedUser();
         $order = $orderRepository->findBasketForUser($user);
 
         if (!$order instanceof Order) {
@@ -46,10 +46,9 @@ final class OrderController extends AbstractController
     #[Route('/basket', name: 'app_basket')]
     public function basketPage(
     ): Response {
+
         $user = $this->userResolver->getAuthenticatedUser();
-
         $order = $this->orderManager->getBasketOrCreateForUser($user);
-
         $orderItems = $order->getOrderItems();
 
         if ($orderItems->isEmpty()) {
@@ -74,6 +73,7 @@ final class OrderController extends AbstractController
         Order $order,
         OrderManager $orderManager,
     ): RedirectResponse {
+
         $orderManager->createOrderFromBasket($order);
 
         return $this->redirectToRoute('app_account');

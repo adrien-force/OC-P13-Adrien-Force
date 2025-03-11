@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\AddProductFormType;
+use App\Manager\OrderManager;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Service\UserResolver;
@@ -31,19 +32,17 @@ class ProductController extends AbstractController
     public function productPage(
         Product $product,
         OrderRepository $orderRepository,
+        OrderManager $orderManager,
     ): Response {
+
         $user = $this->userResolver->getAuthenticatedUser();
 
-        $order = $orderRepository->findBasketForUser($user);
-        if ($order) {
-            $orderItems = $order->getOrderItems();
-            $productInOrder = $orderItems->filter(function ($orderProduct) use ($product) {
-                return $orderProduct->getProduct() === $product;
-            })->first();
+        if ($order = $orderRepository->findBasketForUser($user)) {
+            $orderItem = $orderManager->getOrderItemFromOrderByProduct($order, $product);
         }
 
         return $this->render('productPage/product.html.twig', [
-            'productInOrder' => $productInOrder ?? null,
+            'orderItem' => $orderItem ?? null,
             'product' => $product,
         ]);
     }

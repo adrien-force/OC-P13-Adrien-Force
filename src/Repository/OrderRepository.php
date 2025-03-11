@@ -20,6 +20,10 @@ class OrderRepository extends ServiceEntityRepository
 
     public function findBasketForUser(User $user): ?Order
     {
+
+        /**
+         * @var array<Order> $basket
+         */
         $basket =  $this->createQueryBuilder('b')
             ->where('b.owner = :userId')
             ->andWhere('b.status = :basket')
@@ -29,11 +33,7 @@ class OrderRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        if (null !== $basket && !$basket instanceof Order) {
-            throw new UnexpectedTypeException(Order::class, $basket);
-        }
-
-        return $basket;
+        return $basket[0];
     }
 
     public function findOrderedForUser(User $user): ?Order
