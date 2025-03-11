@@ -25,14 +25,23 @@ final class AccountController extends AbstractController
 
         return $this->render('accountPage/myAccount.html.twig', [
             'orders' => $orders,
+            'user' => $user,
         ]);
     }
 
-    #[Route('/account/api-access', name: 'app_account_api_access')]
+    #[Route('/account/allow-api-access', name: 'app_account_allow_api_access')]
     public function allowAPIAccess(
         UserManager $userManager,
     ): void {
         $user = $this->userResolver->getAuthenticatedUser();
         $userManager->activateAPIAccess($user);
+    }
+
+    #[Route('/account/disable-api-access', name: 'app_account_disable_api_access')]
+    public function disableAPIAccess(
+        UserManager $userManager,
+    ): void {
+        $user = $this->userResolver->getAuthenticatedUser();
+        $userManager->disableAPIAccess($user);
     }
 }

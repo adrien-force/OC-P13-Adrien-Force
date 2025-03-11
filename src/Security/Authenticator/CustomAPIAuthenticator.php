@@ -105,7 +105,7 @@ class CustomAPIAuthenticator extends AbstractAuthenticator
                 throw new BadCredentialsException('Invalid password');
             }
 
-            if (!in_array(User::API_ACCESS, $user->getRoles())) {
+            if (!$user->hasAPIAccess()) {
                 throw new CustomUserMessageAuthenticationException('API access not allowed');
             }
 

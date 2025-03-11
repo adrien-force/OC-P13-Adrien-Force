@@ -128,9 +128,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function removeRole(string $role): static
+    {
+        if ($this->hasRole($role)) {
+            /**
+             * @var list<string> $roles
+             */
+            $roles = array_filter($this->getRoles(), fn ($r) => $r !== $role);
+            $this->setRoles($roles);
+        }
+
+        return $this;
+
+    }
+
     public function hasRole(string $role): bool
     {
         return in_array($role, $this->getRoles(), true);
+    }
+
+    public function hasAPIAccess(): bool
+    {
+        return $this->hasRole(self::API_ACCESS);
     }
 
     /**
