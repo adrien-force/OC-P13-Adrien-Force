@@ -20,7 +20,7 @@
         </a>
         {% if app.user %}
         <a href="{{ path('app_basket') }}"
-           class="header-button{% if app.request.get('_route') == 'app_order' %} active{% endif %}">
+           class="header-button{% if app.request.get('_route') == 'app_basket' %} active{% endif %}">
             Mon panier
         </a>
         <a href="{{ path('app_account') }}"
