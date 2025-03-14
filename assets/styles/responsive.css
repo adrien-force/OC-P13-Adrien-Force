@@ -1,0 +1,35 @@
+/* HEADER */
+
+.nav-link {
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.nav-link.active {
+    border-bottom: 2px solid green;
+    transition: border-color 0.3s ease;
+}
+
+.nav-link:hover {
+    border-bottom: 2px solid rgba(58, 106, 77, 0.59);
+}
+
+/* ANIMATION */
+
+.animated-transition {
+    transition: all 0.3s ease-in-out;
+}
+
+/* RESPONSIVE */
+
+@media (min-width: 992px) {
+    .mw-50-lg {
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 991px) {
+    .mw-90-sm {
+        max-width: 90%;
+    }
+}

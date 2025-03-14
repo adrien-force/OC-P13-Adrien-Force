@@ -5,45 +5,50 @@
 {% block body %}
 
     {% include '/partials/header.twig.html.twig' %}
-    <div class="order-page">
+    <div class="order-page container-fluid d-flex align-items-center justify-content-center" style="background-color: #F5F5F5">
+        <div class="mw-50-lg mw-90-sm flex-column align-items-center animated-transition">
+            <div class="my-order d-flex flex-column align-items-center pt-5">
+                <h1> Mon panier </h1>
+                {% if orderItems != null %}
+                    <a href="/order/clear/{{ orderItems[0].order.id }}" class="order-clear align-self-start"> x Vider le
+                        panier</a>
+                {% endif %}
 
-        <div class="my-order">
-            <h1> Mon panier </h1>
-            {% if orderItems != null %}
-            <a href="/order/clear/{{ orderItems[0].order.id }}" class="order-clear"> x Vider le panier</a>
-            {% endif %}
-
-            {% for orderItem in orderItems %}
-            <div class="order-item">
-                <a href="{{ path('app_product', {'id': orderItem.product.id}) }}">
-                    <img src="{{ asset('images/products/' ~ orderItem.product.imgSrc) }}" alt="Photo de {{orderItem.product.name}}" />
-                </a>
-                <div class="order-item-text">
-                    <h2> {{ orderItem.product.name }} </h2>
-                    <h3> Quantité: {{  orderItem.quantity }}</h3>
-                    <h4> {{ orderItem.subTotal }}€ </h4>
+                {% for orderItem in orderItems %}
+                    <div class="order-item d-flex flex-row align-items-center p-5" style="background-color: red">
+                        <a class="w-25 h-25" href="{{ path('app_product', {'id': orderItem.product.id}) }}">
+                            <img class="img-fluid"
+                                 src="{{ asset('images/products/' ~ orderItem.product.imgSrc) }}"
+                                 alt="Photo de {{ orderItem.product.name }}"/>
+                        </a>
+                        <div class="order-item-text w-75">
+                            <h2> {{ orderItem.product.name }} </h2>
+                            <h3> Quantité: {{ orderItem.quantity }}</h3>
+                            <h4> {{ orderItem.subTotal }}€ </h4>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if orderItems|length == 0 %}
+                    <div class="order-item-text">
+                        <h3> Votre panier est vide </h3>
+                    </div>
+                {% endif %}
+                <div class="order-total">
+                    <div>
+                        <h2> Total panier : <span
+                                    class="order-amount">{% if orderItems != null %} {{ orderItems[0].order.total }} {% else %} 0 {% endif %}€</span>
+                        </h2>
+                        <h4> Frais de livraison: Offert</h4>
+                    </div>
                 </div>
+
+                {% if orderItems|length > 0 %}
+                    <a href="/order/validate/{{ orderItems[0].order.id }}" class="main-button"> Valider la commande </a>
+                {% else %}
+                    <a href="/home" class="main-button"> Voir les produits </a>
+                {% endif %}
             </div>
-            {% endfor %}
-            {% if orderItems|length == 0 %}
-                <div class="order-item-text">
-                    <h3> Votre panier est vide </h3>
-                </div>
-            {% endif %}
-            <div class="order-total">
-                <div>
-                    <h2> Total panier : <span class="order-amount">{% if orderItems != null %} {{ orderItems[0].order.total }} {% else %} 0 {% endif %}€</span></h2>
-                    <h4> Frais de livraison: Offert</h4>
-                </div>
-            </div>
-
-            {% if orderItems|length > 0 %}
-            <a href="/order/validate/{{ orderItems[0].order.id }}" class="main-button"> Valider la commande </a>
-            {% else %}
-            <a href="/home" class="main-button"> Voir les produits </a>
-            {% endif %}
         </div>
-
 
     </div>
     {% include '/partials/footer.twig.html.twig' %}
