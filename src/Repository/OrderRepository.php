@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Order;
 use App\Entity\User;
-use App\Exception\UnexpectedTypeException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -36,21 +36,20 @@ class OrderRepository extends ServiceEntityRepository
         return $basket[0];
     }
 
-    public function findOrderedForUser(User $user): ?Order
+    /**
+     * @return list<Order>
+     */
+    public function findOrderedForUser(User $user): array
     {
-        $order =  $this->createQueryBuilder('b')
+        return  $this->createQueryBuilder('b')
             ->where('b.owner = :userId')
             ->andWhere('b.status = :ordered')
-            ->setParameter('userId', $user->getId())
-            ->setParameter('ordered', 'ordered')
+            ->setParameter('userId', $user->getId(), Types::INTEGER)
+            ->setParameter('ordered', 'ordered', Types::STRING)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
-        if (null !== $order && !$order instanceof Order) {
-            throw new UnexpectedTypeException(Order::class, $order);
-        }
-
-        return $order;
     }
 
     //    /**
