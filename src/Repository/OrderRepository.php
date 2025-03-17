@@ -42,7 +42,8 @@ class OrderRepository extends ServiceEntityRepository
      */
     public function findOrderedForUser(User $user): array
     {
-        return  $this->createQueryBuilder('b')
+        /** @var list<Order> $result */
+        $result = $this->createQueryBuilder('b')
             ->where('b.owner = :userId')
             ->andWhere('b.status = :ordered')
             ->setParameter('userId', $user->getId(), Types::INTEGER)
@@ -51,6 +52,7 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult()
         ;
 
+        return $result;
     }
 
     //    /**

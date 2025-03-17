@@ -19,11 +19,11 @@ class Product
 
     #[ORM\Column(length: 255)]
     #[Groups([Product::GROUP_LIST])]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column]
     #[Groups([Product::GROUP_LIST])]
-    private ?float $price = null;
+    private float $price;
 
     #[ORM\Column(type: 'text', length: 500, nullable: true)]
     #[Groups([Product::GROUP_LIST])]
@@ -34,7 +34,7 @@ class Product
     private ?string $descPreview = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $imgSrc = null;
+    private string $imgSrc;
 
     public function getId(): ?int
     {

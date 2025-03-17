@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\Product;
-use App\Manager\OrderItemManager;
-use App\Manager\OrderManager;
 use App\Repository\OrderItemRepository;
 use App\Repository\OrderRepository;
+use App\Service\Basket\BasketService;
+use App\Service\Order\OrderService;
+use App\Service\OrderItem\OrderItemService;
 use App\Service\UserResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,8 +21,9 @@ final class OrderController extends AbstractController
 {
     public function __construct(
         private readonly UserResolver $userResolver,
-        private readonly OrderManager $orderManager,
-        private readonly OrderItemManager $orderItemManager,
+        private readonly OrderService $orderService,
+        private readonly OrderItemService $orderItemService,
+        private readonly BasketService $basketService,
     ) {}
 
     #[Route('/order/add/{id}', name: 'app_order_add')]
@@ -34,10 +36,10 @@ final class OrderController extends AbstractController
         $order = $orderRepository->findBasketForUser($user);
 
         if (!$order instanceof Order) {
-            $order = $this->orderManager->createOrderForUser($user);
+            $order = $this->orderService->createOrderForUser($user);
         }
 
-        $this->orderManager->addProductToOrder($product, $order);
+        $this->orderItemService->addProductToOrder($product, $order);
 
         return $this->redirectToRoute('app_product', ['id' => $product->getId()]);
     }
@@ -47,7 +49,7 @@ final class OrderController extends AbstractController
     ): Response {
 
         $user = $this->userResolver->getAuthenticatedUser();
-        $order = $this->orderManager->getBasketOrCreateForUser($user);
+        $order = $this->basketService->getBasketOrCreateForUser($user);
         $orderItems = $order->getOrderItems();
 
         if ($orderItems->isEmpty()) {
@@ -62,7 +64,7 @@ final class OrderController extends AbstractController
     #[Route('/order/clear/{id}', name: 'app_order_clear')]
     public function clearOrder(Order $order): Response
     {
-        $this->orderManager->clearBasket($order);
+        $this->basketService->clearBasket($order);
 
         return $this->redirectToRoute('app_basket');
     }
@@ -70,10 +72,9 @@ final class OrderController extends AbstractController
     #[Route('/order/validate/{id}', name: 'app_order_validate')]
     public function validateOrder(
         Order $order,
-        OrderManager $orderManager,
     ): RedirectResponse {
 
-        $orderManager->createOrderFromBasket($order);
+        $this->orderService->createOrderFromBasket($order);
 
         return $this->redirectToRoute('app_account');
     }
@@ -93,7 +94,7 @@ final class OrderController extends AbstractController
             throw $this->createNotFoundException(sprintf('OrderItem with id %d not found', $id));
         }
 
-        $this->orderItemManager->updateProductQuantity($orderItem, $action, $quantity);
+        $this->orderItemService->updateProductQuantity($orderItem, $action, $quantity);
 
         return $this->redirectToRoute('app_product', ['id' => $orderItem->getProduct()?->getId()]);
     }

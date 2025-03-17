@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\AddProductFormType;
-use App\Manager\OrderManager;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
+use App\Service\OrderItem\OrderItemService;
 use App\Service\UserResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Attribute\Model;
@@ -30,13 +30,13 @@ class ProductController extends AbstractController
     public function productPage(
         Product $product,
         OrderRepository $orderRepository,
-        OrderManager $orderManager,
+        OrderItemService $orderItemService,
     ): Response {
 
         $user = $this->userResolver->getAuthenticatedUser();
 
         if ($order = $orderRepository->findBasketForUser($user)) {
-            $orderItem = $orderManager->getOrderItemFromOrderByProduct($order, $product);
+            $orderItem = $orderItemService->getOrderItemFromOrderByProduct($order, $product);
         }
 
         return $this->render('productPage/product.html.twig', [

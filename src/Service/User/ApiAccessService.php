@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Manager;
+namespace App\Service\User;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-final readonly class UserManager
+class ApiAccessService
 {
-    public function __construct(private EntityManagerInterface $em) {}
-
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+    ) {}
     public function activateAPIAccess(User $user): void
     {
         $user->addRole(User::API_ACCESS);
@@ -22,4 +23,5 @@ final readonly class UserManager
         $this->em->persist($user);
         $this->em->flush();
     }
+
 }

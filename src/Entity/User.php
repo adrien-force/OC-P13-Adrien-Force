@@ -29,9 +29,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50)]
     private string $lastName = '';
 
-    /**
-     * @var non-empty-string
-     */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\Email(message: 'The email "{{ value }}" is not a valid email.')]
     #[Assert\NotBlank]
@@ -44,10 +41,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string|null The hashed password
+     * @var string The hashed password
      */
     #[ORM\Column]
-    private ?string $password = null;
+    private string $password;
 
     /**
      * @var Collection<int, Order>
@@ -67,9 +64,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    /**
-     * @param non-empty-string $email
-     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -82,6 +76,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
+        if ('' === $this->email) {
+            throw new \LogicException('Email is not set');
+        }
+
         return $this->email;
     }
 
@@ -155,10 +153,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        if (null === $this->password) {
-            throw new \LogicException('The password should never be null.');
-        }
-
         return $this->password;
     }
 
