@@ -3,6 +3,8 @@ DOCKER = docker-compose
 SYMFONY = symfony
 COMPOSER = composer
 PHP = php
+DOCKER_EXEC = docker exec
+DOCKER_PHP = $(DOCKER_EXEC) OC-P13-php php
 
 # Colors
 COLOR_RESET = \033[0m
@@ -24,11 +26,11 @@ test: ## Run tests
 
 .PHONY: migration
 migration: ## Generate migration
-	$(PHP) bin/console doctrine:migrations:diff
+	$(DOCKER_PHP) bin/console doctrine:migrations:diff
 
 .PHONY: migrate
 migrate: ## Run migrations
-	$(PHP) bin/console doctrine:migrations:migrate --no-interaction
+	$(DOCKER_PHP) bin/console doctrine:migrations:migrate --no-interaction
 
 .PHONY: cache
 cache: ## Clear cache
