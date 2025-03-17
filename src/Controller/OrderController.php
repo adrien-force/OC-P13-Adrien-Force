@@ -22,8 +22,7 @@ final class OrderController extends AbstractController
         private readonly UserResolver $userResolver,
         private readonly OrderManager $orderManager,
         private readonly OrderItemManager $orderItemManager,
-    ) {
-    }
+    ) {}
 
     #[Route('/order/add/{id}', name: 'app_order_add')]
     public function addProductToOrder(

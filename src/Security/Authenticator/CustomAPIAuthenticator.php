@@ -50,8 +50,8 @@ class CustomAPIAuthenticator extends AbstractAuthenticator
         $password = $content['password'] ?? '';
 
         return new Passport(
-            new UserBadge($email, fn ($userIdentifier) => $this->loadUserByIdentifier($userIdentifier, $password)),
-            new PasswordCredentials($password)
+            new UserBadge($email, fn($userIdentifier) => $this->loadUserByIdentifier($userIdentifier, $password)),
+            new PasswordCredentials($password),
         );
     }
 

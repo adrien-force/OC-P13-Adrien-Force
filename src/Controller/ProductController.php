@@ -11,6 +11,7 @@ use App\Service\UserResolver;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use Nelmio\ApiDocBundle\Attribute\Security;
+use OpenApi\Attributes as OA;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,13 +21,10 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
-use OpenApi\Attributes as OA;
 
 class ProductController extends AbstractController
 {
-    public function __construct(private readonly UserResolver $userResolver)
-    {
-    }
+    public function __construct(private readonly UserResolver $userResolver) {}
 
     #[Route('/product/{id}', name: 'app_product')]
     public function productPage(
@@ -75,8 +73,8 @@ class ProductController extends AbstractController
         description: 'Returns the list of products',
         content: new OA\JsonContent(
             type: 'array',
-            items: new OA\Items(ref: new Model(type: Product::class, groups: [Product::GROUP_LIST]))
-        )
+            items: new OA\Items(ref: new Model(type: Product::class, groups: [Product::GROUP_LIST])),
+        ),
     )]
     #[Security(name: 'Bearer')]
     public function productList(
@@ -100,7 +98,7 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException('There are no products yet on the site, please check back later');
         }
 
-        $serializedProducts = $serializer->serialize(data: $products, format:'json', context: ['groups' => Product::GROUP_LIST]);
+        $serializedProducts = $serializer->serialize(data: $products, format: 'json', context: ['groups' => Product::GROUP_LIST]);
 
         return new JsonResponse($serializedProducts, Response::HTTP_OK, [], true);
     }

@@ -2,11 +2,11 @@
 
 namespace App\EventListener;
 
-use Doctrine\ORM\Event\PostUpdateEventArgs;
+use App\Entity\Product;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
-use App\Entity\Product;
 
 class ProductCacheInvalidationListener
 {

@@ -14,8 +14,7 @@ final readonly class OrderManager
     public function __construct(
         private EntityManagerInterface $em,
         private OrderRepository $orderRepository,
-    ) {
-    }
+    ) {}
 
     public function createOrderFromBasket(
         Order $basket,

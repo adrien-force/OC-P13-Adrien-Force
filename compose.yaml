@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   database:
+    container_name: OC-P13-db
     image: postgres:${POSTGRES_VERSION:-16}-alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
@@ -18,6 +19,7 @@ services:
       - "5432:5432"
 
   mailer:
+    container_name: OC-P13-mailer
     image: axllent/mailpit
     ports:
       - "1025"
@@ -27,7 +29,7 @@ services:
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
 
   php:
-    container_name: php
+    container_name: OC-P13-php
     build:
       context: .
       dockerfile: Dockerfile

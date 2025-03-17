@@ -13,8 +13,7 @@ final readonly class UserResolver
     public function __construct(
         private Security $security,
         private UserRepository $userRepository,
-    ) {
-    }
+    ) {}
 
     public function getAuthenticatedUser(): User
     {

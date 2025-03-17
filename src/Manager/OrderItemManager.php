@@ -7,9 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class OrderItemManager
 {
-    public function __construct(private EntityManagerInterface $em)
-    {
-    }
+    public function __construct(private EntityManagerInterface $em) {}
 
     public function updateProductQuantity(OrderItem $orderItem, string $action, int $givenQuantity): void
     {

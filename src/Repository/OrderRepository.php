@@ -31,7 +31,8 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('basket', 'basket')
             ->setMaxResults(1)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         return $basket[0];
     }

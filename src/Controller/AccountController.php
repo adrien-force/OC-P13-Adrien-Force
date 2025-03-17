@@ -11,9 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AccountController extends AbstractController
 {
-    public function __construct(private readonly UserResolver $userResolver)
-    {
-    }
+    public function __construct(private readonly UserResolver $userResolver) {}
 
     #[Route('/account', name: 'app_account')]
     public function accountPage(

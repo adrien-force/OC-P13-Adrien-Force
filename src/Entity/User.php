@@ -55,9 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'owner', cascade: ['persist'])]
     private Collection $orders;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function getId(): ?int
     {
@@ -134,7 +132,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             /**
              * @var list<string> $roles
              */
-            $roles = array_filter($this->getRoles(), fn ($r) => $r !== $role);
+            $roles = array_filter($this->getRoles(), fn($r) => $r !== $role);
             $this->setRoles($roles);
         }
 
