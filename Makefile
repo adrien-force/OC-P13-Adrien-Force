@@ -48,7 +48,7 @@ fixtures: ## Load fixtures
 
 .PHONY: phpstan
 phpstan: ## Run PHPStan
-	$(PHP) vendor/bin/phpstan analyse
+	$(PHP) vendor/bin/phpstan analyse --memory-limit=2G
 
 .PHONY: lint
 lint: ## Run linting
