@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order Page{% endblock %}
+
+{% block body %}
+
+    {% include '/partials/header.twig.html.twig' %}
+    <div class="order-page">
+
+        <div class="my-account">
+            <h1> Mon compte </h1>
+
+            <div class="account-block">
+                <p>
+                    {% if message %}
+                        {{ message }}
+                    {% else %}
+                        Vous avez été déconnecté.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+
+    </div>
+    {% include '/partials/footer.twig.html.twig' %}
+{% endblock %}

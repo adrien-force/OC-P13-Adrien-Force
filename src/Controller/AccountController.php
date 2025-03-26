@@ -6,6 +6,7 @@ use App\Repository\OrderRepository;
 use App\Service\User\ApiAccessService;
 use App\Service\UserResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -36,7 +37,7 @@ final class AccountController extends AbstractController
         $user = $this->userResolver->getAuthenticatedUser();
         $this->apiAccessService->activateAPIAccess($user);
 
-        return new Response('API access enabled');
+        return $this->redirectToRoute('app_security_notice', ['message' => "Votre accès API a été activé. \n Veuillez vous reconnecter."]);
     }
 
     #[Route('/account/disable-api-access', name: 'app_account_disable_api_access')]
@@ -45,7 +46,7 @@ final class AccountController extends AbstractController
         $user = $this->userResolver->getAuthenticatedUser();
         $this->apiAccessService->disableAPIAccess($user);
 
-        return new Response('API access disabled');
+        return $this->redirectToRoute('app_security_notice', ["message' => 'Votre accès API a été désactivé. \n Veuillez vous reconnecter."]);
 
     }
 
