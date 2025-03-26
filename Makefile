@@ -22,7 +22,7 @@ install: ## Install dependencies
 
 .PHONY: test
 test: ## Run tests
-	$(PHP) bin/phpunit
+	$(DOCKER_PHP) bin/phpunit
 
 .PHONY: migration
 migration: ## Generate migration
@@ -34,7 +34,7 @@ migrate: ## Run migrations
 
 .PHONY: cache
 cache: ## Clear cache
-	$(PHP) bin/console cache:clear
+	$(DOCKER_PHP) bin/console cache:clear
 
 .PHONY: start
 start: ## Start application
@@ -46,12 +46,12 @@ stop: ## Stop application
 
 .PHONY: fixtures
 fixtures: ## Load fixtures
-	$(PHP) bin/console doctrine:fixtures:load --no-interaction
+	$(DOCKER_PHP) bin/console doctrine:fixtures:load --no-interaction
 
 .PHONY: phpstan
 phpstan: ## Run PHPStan
-	$(PHP) vendor/bin/phpstan analyse --memory-limit=2G
+	$(DOCKER_PHP) vendor/bin/phpstan analyse --memory-limit=2G
 
 .PHONY: lint
 lint: ## Run linting
-	$(PHP) vendor/bin/php-cs-fixer fix --config .php-cs-fixer.dist.php
+	$(DOCKER_PHP) vendor/bin/php-cs-fixer fix --config .php-cs-fixer.dist.php
