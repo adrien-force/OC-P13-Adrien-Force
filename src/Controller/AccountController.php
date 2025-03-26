@@ -32,16 +32,21 @@ final class AccountController extends AbstractController
 
     #[Route('/account/allow-api-access', name: 'app_account_allow_api_access')]
     public function allowAPIAccess(
-    ): void {
+    ): Response {
         $user = $this->userResolver->getAuthenticatedUser();
         $this->apiAccessService->activateAPIAccess($user);
+
+        return new Response('API access enabled');
     }
 
     #[Route('/account/disable-api-access', name: 'app_account_disable_api_access')]
     public function disableAPIAccess(
-    ): void {
+    ): Response {
         $user = $this->userResolver->getAuthenticatedUser();
         $this->apiAccessService->disableAPIAccess($user);
+
+        return new Response('API access disabled');
+
     }
 
 }
