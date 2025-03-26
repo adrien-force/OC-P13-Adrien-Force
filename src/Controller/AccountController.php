@@ -43,4 +43,5 @@ final class AccountController extends AbstractController
         $user = $this->userResolver->getAuthenticatedUser();
         $this->apiAccessService->disableAPIAccess($user);
     }
+
 }

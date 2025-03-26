@@ -20,7 +20,6 @@ class OrderItemService
             $orderItem->setProduct($product);
             $order->addOrderItem($orderItem);
         }
-        $orderItem->incrementQuantity();
 
         $this->em->persist($orderItem);
         $this->em->persist($order);
