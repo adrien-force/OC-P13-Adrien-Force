@@ -569,6 +569,7 @@ body:has(.order-page) {
     justify-content: center;
     width: 50%;
     height: 100%;
+    padding: 40px 0 40px 0;
 }
 
 .order-item {
