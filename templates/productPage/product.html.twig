@@ -17,7 +17,9 @@
                 <h5> Description </h5>
                 <p>{{product.description}}</p>
             </div>
-            {% if orderItem == null %}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
+            <a href="/login" class="main-button"> Connectez-vous pour ajouter au panier </a>
+            {% elseif orderItem == null %}
                 <a href="/order/add/{{product.id}}" class="main-button"> Ajouter au panier </a>
             {% else %}
                 <form class="quantity-form" method="post" action="{{ path('update_quantity', {'id': orderItem.id}) }}">
