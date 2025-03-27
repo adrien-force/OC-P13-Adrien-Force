@@ -349,7 +349,11 @@ footer {
     flex-direction: column;
     align-items: center;
 }
-.product-right h1,h2,h5,p {
+
+.product-right > h1,
+.product-right > h2,
+.product-right > h5,
+.product-right > p {
     margin: 0 100px 0 100px;
 }
 
