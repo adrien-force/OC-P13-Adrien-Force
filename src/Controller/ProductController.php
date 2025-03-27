@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
@@ -33,9 +35,13 @@ class ProductController extends AbstractController
         OrderItemService $orderItemService,
     ): Response {
 
-        $user = $this->userResolver->getAuthenticatedUser();
+        try {
+            $user = $this->userResolver->getAuthenticatedUser();
+        } catch (AuthenticationException) {
+            $user = null;
+        }
 
-        if ($order = $orderRepository->findBasketForUser($user)) {
+        if ($user && $order = $orderRepository->findBasketForUser($user)) {
             $orderItem = $orderItemService->getOrderItemFromOrderByProduct($order, $product);
         }
 
@@ -46,6 +52,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/add', name: 'app_product_add')]
+    #[isGranted('ROLE_ADMIN')]
     public function addProduct(
         Request $request,
         EntityManagerInterface $em,
