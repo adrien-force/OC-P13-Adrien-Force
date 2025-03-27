@@ -302,7 +302,7 @@ footer {
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
-    margin: 0 40px 40px 0;
+    margin: 0 70px 40px 0;
 }
 
 .infos-bottom-text-wrapper h1 {
@@ -360,6 +360,7 @@ footer {
 .product-text-wrapper {
     margin-top: auto;
     margin-bottom: auto;
+    width: 70%;
 }
 
 .product-text-wrapper h1 {
