@@ -44,9 +44,9 @@
             <div class="account-block">
                 <h2> Mon accès API</h2>
                 {% if user.hasAPIAccess %}
-                <a href="{{ path('app_account_disable_api_access')}} " class="main-button"> Désactiver mon accès API </a>
+                <a href="{{ path('app_account_disable_api_access')}}" class="main-button"> Désactiver mon accès API </a>
                 {% else %}
-                <a href="{{ path('app_account_allow_api_access')}} " class="main-button"> Activer mon accès API </a>
+                <a href="{{ path('app_account_allow_api_access')}}" class="main-button"> Activer mon accès API </a>
 
                 {% endif %}
             </div>

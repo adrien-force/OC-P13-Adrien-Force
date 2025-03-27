@@ -9,7 +9,7 @@
 
         {% for product in products %}
         <div class="product-card">
-            <a href="{{ path('app_product', { 'id': product.id }) }}">
+            <a href="{{ path('app_product', { 'id': product.id }) }}" data-turbo-preload>
                 <img src="{{ asset('images/products/' ~ product.imgSrc) }}" alt="Photo de {{product.name}}"
                      loading="lazy"
                 /></a>
@@ -18,7 +18,7 @@
                 <h4>{{ product.descPreview }}</h4>
                 <h5>{{ product.price}} €</h5>
                 <div class="product-button-wrapper">
-                    <a href="/product/{{product.id}}" class="product-button">Voir le produit</a>
+                    <a href="/product/{{product.id}}" data-turbo-preload class="product-button">Voir le produit</a>
                 </div>
             </div>
         </div>

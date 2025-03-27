@@ -15,7 +15,7 @@
 
             {% for orderItem in orderItems %}
             <div class="order-item">
-                <a href="{{ path('app_product', {'id': orderItem.product.id}) }}">
+                <a href="{{ path('app_product', {'id': orderItem.product.id}) }}" data-turbo-preload>
                     <img src="{{ asset('images/products/' ~ orderItem.product.imgSrc) }}" alt="Photo de {{orderItem.product.name}}" />
                 </a>
                 <div class="order-item-text">

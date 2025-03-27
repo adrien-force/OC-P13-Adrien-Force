@@ -31,7 +31,7 @@
             <button type="submit" class="main-button">S'inscrire</button>
             {{ form_end(registrationForm) }}
 
-            <a href="{{path('app_login')}}"> Déjà un compte ? Se connecter </a>
+            <a href="{{path('app_login')}}" data-turbo-preload> Déjà un compte ? Se connecter </a>
         </div>
     </div>
     {% include '/partials/footer.twig.html.twig' %}
