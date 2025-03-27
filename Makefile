@@ -16,8 +16,19 @@ COLOR_COMMENT = \033[33m
 help: ## Show this help
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
-.PHONY: install
-install: ## Install dependencies
+install: ## Install project
+	$(MAKE) start
+	$(MAKE) composer
+	$(MAKE) migrate
+	$(MAKE) fixtures
+
+reinstall: ## Reinstall project completely
+	$(DOCKER) down --volumes --remove-orphans
+	$(DOCKER) up -d --build
+	$(MAKE) install
+
+.PHONY: composer
+composer: ## Install dependencies
 	$(COMPOSER) install
 
 .PHONY: test
