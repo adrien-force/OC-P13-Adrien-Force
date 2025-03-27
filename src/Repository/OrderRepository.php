@@ -34,7 +34,7 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult()
         ;
 
-        return $basket[0];
+        return $basket[0] ?? null;
     }
 
     /**
