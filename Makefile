@@ -19,6 +19,7 @@ help: ## Show this help
 install: ## Install project
 	$(MAKE) start
 	$(MAKE) composer
+	$(MAKE) jwt
 	$(MAKE) migrate
 	$(MAKE) fixtures
 
@@ -66,3 +67,7 @@ phpstan: ## Run PHPStan
 .PHONY: lint
 lint: ## Run linting
 	$(DOCKER_PHP) vendor/bin/php-cs-fixer fix --config .php-cs-fixer.dist.php
+
+.PHONY: jwt
+jwt: ## Generate JWT
+	$(DOCKER_PHP) bin/console lexik:jwt:generate-keypair --skip-if-exists
