@@ -56,6 +56,7 @@ security:
         - { path: ^/register,           roles: PUBLIC_ACCESS }
         - { path: ^/home ,              roles: PUBLIC_ACCESS }
         - { path: ^/product,            roles: PUBLIC_ACCESS}
+        - { path: ^/security-notice,    roles: PUBLIC_ACCESS }
         - { path: ^/*,                  roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
